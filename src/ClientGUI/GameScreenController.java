@@ -1,4 +1,4 @@
-package GameScreen;
+package ClientGUI;
 
 import domain.*;
 import domain.Stroke;
