@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Room {
     private Chat chat;
     private Player host;
+    private ActivePlayer activePlayer;
     private ArrayList<Player> players;
     private Drawing drawing;
 
@@ -12,6 +13,7 @@ public class Room {
         this.host = host;
         this.chat = new Chat();
         this.drawing = new Drawing();
+        this.activePlayer = new ActivePlayer(host);
     }
 
     public Room (Player host, ArrayList<Player> players,Drawing drawing,Chat chat){
@@ -19,6 +21,8 @@ public class Room {
         this.players = players;
         this.drawing = drawing;
         this.chat = chat;
+        this.activePlayer = new ActivePlayer(host);
+
     }
     public Player getHost() {
         return host;
@@ -49,5 +53,13 @@ public class Room {
 
     public void setChat(Chat chat){
         this.chat = chat;
+    }
+
+    public ActivePlayer getActivePlayer() {
+        return activePlayer;
+    }
+
+    public void setActivePlayer(ActivePlayer activePlayer) {
+        this.activePlayer = activePlayer;
     }
 }

@@ -1,13 +1,14 @@
 package domain;
 
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class BrushProperties {
     private int width;
-    private Color color;
-
+    //private Color color;
+    private Paint color;
     public BrushProperties() {
-        this.width = 2;
+        this.width = 10;
         this.color = Color.BLACK;
     }
 
@@ -24,11 +25,11 @@ public class BrushProperties {
         this.width = width;
     }
 
-    public Color getColor() {
+    public Paint getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(Paint color) {
         this.color = color;
     }
 }

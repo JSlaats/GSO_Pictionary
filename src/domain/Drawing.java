@@ -18,10 +18,13 @@ public class Drawing {
     }
 
     public void setStrokes(ArrayList<Stroke> strokes) {
-        this.strokes = strokes;
+        this.strokes = new ArrayList<Stroke>(strokes);
     }
 
     public void setStroke(Stroke stroke){
         this.strokes.add(stroke);
+    }
+    public void clear(){
+        this.strokes.clear();
     }
 }

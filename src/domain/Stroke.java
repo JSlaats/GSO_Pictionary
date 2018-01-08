@@ -3,30 +3,20 @@ package domain;
 import java.awt.*;
 
 public class Stroke {
-    private Point begin;
-    private Point end;
+    private Point position;
     private BrushProperties brush;
 
-    public Stroke(Point begin, Point end, BrushProperties brush) {
-        this.begin = begin;
-        this.end = end;
+    public Stroke(Point position, BrushProperties brush) {
+        this.position = position;
         this.brush = brush;
     }
 
-    public Point getBegin() {
-        return begin;
+    public Point getPosition() {
+        return position;
     }
 
-    public void setBegin(Point begin) {
-        this.begin = begin;
-    }
-
-    public Point getEnd() {
-        return end;
-    }
-
-    public void setEnd(Point end) {
-        this.end = end;
+    public void setPosition(Point position) {
+        this.position = position;
     }
 
     public BrushProperties getBrush() {
