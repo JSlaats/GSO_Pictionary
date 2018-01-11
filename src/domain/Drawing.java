@@ -1,15 +1,19 @@
 package domain;
 
+import Interfaces.IDrawing;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
-public class Drawing {
+public class Drawing extends UnicastRemoteObject implements IDrawing {
     private ArrayList<Stroke> strokes;
 
-    public Drawing() {
+    public Drawing() throws RemoteException {
         this.strokes = new ArrayList<>();
     }
 
-    public Drawing(ArrayList<Stroke> strokes) {
+    public Drawing(ArrayList<Stroke> strokes)throws RemoteException {
         this.strokes = strokes;
     }
 

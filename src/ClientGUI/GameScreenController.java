@@ -1,6 +1,7 @@
 package ClientGUI;
 
-import domain.*;
+import Interfaces.IPlayer;
+import Interfaces.IRoom;
 import domain.Stroke;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -19,12 +20,11 @@ import javafx.scene.paint.Paint;
 
 import java.awt.*;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class GameScreenController implements Initializable {
+public class GameScreenController implements Initializable{
     public TextField chatInput;
     public TextArea chatBox;
     public Button sendBtn;
@@ -37,20 +37,24 @@ public class GameScreenController implements Initializable {
     private GraphicsContext gc;
 
 
-    Room room = new Room(new Player("Jelle"));
+    //Room room = new Room(new Player("Jelle"));
+    IRoom room = GameClient.getInstance().getRoom();
+
 
     public void leaveRoom(ActionEvent actionEvent) {
 
     }
 
-    private void sendChatMessage(){
+    private void sendChatMessage() throws RemoteException {
         LocalDateTime now = LocalDateTime.now();
 
-        ChatMessage message = new ChatMessage(chatInput.getText(), now,room.getHost().toString());
-        chatBox.appendText(message.toString()+"\n\r");
+        //ChatMessage message = new ChatMessage(chatInput.getText(), now,room.getHost().toString());
+        //chatBox.appendText(message.toString()+"\n\r");
+
+        chatBox.appendText(chatInput.getText()+"\n\r");
         chatInput.setText("");
     }
-    private void guessWord(String guess){
+    private void guessWord(String guess) throws RemoteException {
         if(room.guessWord(guess)){
             chatBox.appendText("You guessed the word: \""+guess+"\"! Congratz bro!!!!\n\r");
             this.clearScreen();
@@ -60,80 +64,135 @@ public class GameScreenController implements Initializable {
         }
     }
     public void sendChatMessageEvent(ActionEvent actionEvent) {
-        sendChatMessage();
+        try {
+            sendChatMessage();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
     public void sendChatMessageEventKey(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER))
         {
-            sendChatMessage();
+            try {
+                sendChatMessage();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
     }
-    public void setStroke(MouseEvent mouseEvent) {
+    public void setStroke(MouseEvent mouseEvent) throws RemoteException {
+        int r = room.getActivePlayer().getBrush().getR();
+        int g = room.getActivePlayer().getBrush().getG();
+        int b = room.getActivePlayer().getBrush().getB();
+        Paint color = Color.rgb(r,g,b);
         int width = room.getActivePlayer().getBrush().getWidth();
-        gc.setStroke(room.getActivePlayer().getBrush().getColor());
-        gc.setFill(room.getActivePlayer().getBrush().getColor());
+        gc.setStroke(color);
+        gc.setFill(color);
         gc.fillOval((int)mouseEvent.getX(),(int)mouseEvent.getY(),width,width);
+
 
         room.getDrawing().setStroke(new Stroke(
                 new Point((int)mouseEvent.getX(),(int)mouseEvent.getY()),
                 room.getActivePlayer().getBrush()
         ));
+      //  System.out.println(room.getDrawing().getStrokes().size());
+    }
 
+    public void draw() throws RemoteException {
+        for (Stroke s:room.getDrawing().getStrokes()) {
+            int r = s.getBrush().getR();
+            int g = s.getBrush().getG();
+            int b = s.getBrush().getB();
+            Paint color = Color.rgb(r,g,b);
+            int width = s.getBrush().getWidth();
+            gc.setStroke(color);
+            gc.setFill(color);
+            gc.fillOval(s.getPosition().x,s.getPosition().y,width,width);
+        }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.gc = drawingCanvas.getGraphicsContext2D();
-        this.room.addPlayer(new Player("a"));
-        this.room.addPlayer(new Player("b"));
         sizeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             setBrushSize();
         });
         colorInput.getItems().addAll("Black","Red","Green","Blue","Yellow");
         colorInput.setValue("Black");
         updateWordLabel();
+
     }
     public void updateWordLabel(){
-        wordLabel.setText(room.getActivePlayer().getWord());
+        try {
+            System.out.println("Word: "+room.getActivePlayer().getWord());
+            wordLabel.setText(room.getActivePlayer().getWord());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
-    public void clearScreen() {
+    public void clearScreen()  {
+        /*
         gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
-        room.getDrawing().clear();
+        room.getDrawing().clear();*/
+        try {
+            draw();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    public void setBrushSize() {
+    public void setBrushSize()  {
         double val = sizeSlider.getValue();
         System.out.println(val);
-        room.getActivePlayer().getBrush().setWidth((int)val);
+        try {
+            room.getActivePlayer().getBrush().setWidth((int)val);
+            System.out.println(room.getActivePlayer().getBrush().getWidth());
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setColor(ActionEvent actionEvent) {
-        Paint color;
+    public void setColor(ActionEvent actionEvent) throws RemoteException {
+        int r = 0;
+        int g = 0;
+        int b = 0;
+        //Paint color;
         switch(colorInput.getValue()){
             case "Red":
-                color = Color.RED;
+                r = 255;
+             //   color = Color.RED;
                 break;
             case "Green":
-                color = Color.GREEN;
+                g = 255;
+              //  color = Color.GREEN;
                 break;
             case "Blue":
-                color = Color.BLUE;
+                b = 255;
+               // color = Color.BLUE;
                 break;
             case "Yellow":
-                color = Color.YELLOW;
+                r = 255;
+                g = 255;
+               // color = Color.YELLOW;
                 break;
             case "Black":
             default:
-                color = Color.BLACK;
+                //color = Color.BLACK;
                 break;
         }
-        room.getActivePlayer().getBrush().setColor(color);
+
+        room.getActivePlayer().getBrush().setColor(r,g,b);
     }
 
     public void guessEvent(ActionEvent actionEvent) {
         if(!guessInput.getText().isEmpty()){
-            this.guessWord(guessInput.getText());
+            try {
+                this.guessWord(guessInput.getText());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
 
             guessInput.clear();
         }
@@ -143,7 +202,11 @@ public class GameScreenController implements Initializable {
 
         if (keyEvent.getCode().equals(KeyCode.ENTER) && !guessInput.getText().isEmpty())
         {
-            this.guessWord(guessInput.getText());
+            try {
+                this.guessWord(guessInput.getText());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             guessInput.clear();
         }
     }

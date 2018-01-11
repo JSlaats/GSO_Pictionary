@@ -1,6 +1,10 @@
 package domain;
 
-public class Player {
+import Interfaces.IPlayer;
+
+import java.io.Serializable;
+
+public class Player implements IPlayer, Serializable{
     private String name;
     private int score;
 

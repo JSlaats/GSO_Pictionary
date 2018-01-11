@@ -1,20 +1,24 @@
 package domain;
 
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
+import java.io.Serializable;
+import java.rmi.Remote;
 
-public class BrushProperties {
+public class BrushProperties implements Serializable, Remote {
     private int width;
-    //private Color color;
-    private Paint color;
+    private int r,g,b;
+
     public BrushProperties() {
         this.width = 10;
-        this.color = Color.BLACK;
+        this.r = 0;
+        this.g = 0;
+        this.b = 0;
     }
 
-    public BrushProperties(int width, Color color) {
+    public BrushProperties(int width, int r, int g, int b) {
         this.width = width;
-        this.color = color;
+        this.r = r;
+        this.g = g;
+        this.b = b;
     }
 
     public int getWidth() {
@@ -25,11 +29,21 @@ public class BrushProperties {
         this.width = width;
     }
 
-    public Paint getColor() {
-        return color;
+    public int getR() {
+        return r;
     }
 
-    public void setColor(Paint color) {
-        this.color = color;
+    public int getG() {
+        return g;
+    }
+
+    public int getB() {
+        return b;
+    }
+
+    public void setColor(int r, int g, int b){
+        this.r = r;
+        this.g = g;
+        this.b = b;
     }
 }

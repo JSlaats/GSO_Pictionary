@@ -1,8 +1,9 @@
 package domain;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Stroke {
+public class Stroke implements Serializable{
     private Point position;
     private BrushProperties brush;
 
@@ -15,15 +16,7 @@ public class Stroke {
         return position;
     }
 
-    public void setPosition(Point position) {
-        this.position = position;
-    }
-
     public BrushProperties getBrush() {
         return brush;
-    }
-
-    public void setBrush(BrushProperties brush) {
-        this.brush = brush;
     }
 }

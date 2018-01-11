@@ -1,16 +1,22 @@
 package domain;
 
-public class ActivePlayer {
+import Interfaces.IActivePlayer;
+
+import java.io.Serializable;
+import java.rmi.RemoteException;
+
+public class ActivePlayer implements Serializable, IActivePlayer {
     private Player activePlayer;
     private BrushProperties brush;
     public String word;
-    public ActivePlayer(Player player){
+
+    public ActivePlayer(Player player) {
         this.activePlayer = player;
         this.brush = new BrushProperties();
         this.word = this.generateWord();
     }
     private String generateWord(){
-        return "Gnome Child";
+        return "Gnome Childd";
     }
 
     public String getWord() {
