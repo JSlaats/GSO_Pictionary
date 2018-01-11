@@ -19,6 +19,8 @@ import javafx.scene.paint.Paint;
 
 import java.awt.*;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -34,22 +36,25 @@ public class GameScreenController implements Initializable {
     public TextField guessInput;
     private GraphicsContext gc;
 
-    private String guessWord = "";
+
     Room room = new Room(new Player("Jelle"));
 
     public void leaveRoom(ActionEvent actionEvent) {
+
     }
 
     private void sendChatMessage(){
-        ChatMessage message = new ChatMessage(chatInput.getText(), null,room.getHost().toString());
+        LocalDateTime now = LocalDateTime.now();
+
+        ChatMessage message = new ChatMessage(chatInput.getText(), now,room.getHost().toString());
         chatBox.appendText(message.toString()+"\n\r");
         chatInput.setText("");
     }
     private void guessWord(String guess){
-        guess = guess.toLowerCase();
-        String guessWordL = guessWord.toLowerCase();
-        if(Objects.equals(guess, guessWordL)){
-            chatBox.appendText("You guessed the word: \""+guessWord+"\"! Congratz bro!!!!\n\r");
+        if(room.guessWord(guess)){
+            chatBox.appendText("You guessed the word: \""+guess+"\"! Congratz bro!!!!\n\r");
+            this.clearScreen();
+
         }else{
             chatBox.appendText("Your guess was: \""+guess+"\", and it was wrong. YOU SUCK!\n\r");
         }
@@ -79,22 +84,23 @@ public class GameScreenController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.gc = drawingCanvas.getGraphicsContext2D();
-
+        this.room.addPlayer(new Player("a"));
+        this.room.addPlayer(new Player("b"));
         sizeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             setBrushSize();
         });
         colorInput.getItems().addAll("Black","Red","Green","Blue","Yellow");
         colorInput.setValue("Black");
-        this.setWord("Gnome Child");
+        updateWordLabel();
     }
-    public void setWord(String word){
-        guessWord = word;
-        wordLabel.setText(word);
+    public void updateWordLabel(){
+        wordLabel.setText(room.getActivePlayer().getWord());
     }
-    public void clearScreen(ActionEvent actionEvent) {
+    public void clearScreen() {
         gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
         room.getDrawing().clear();
     }
+
 
     public void setBrushSize() {
         double val = sizeSlider.getValue();
@@ -128,7 +134,8 @@ public class GameScreenController implements Initializable {
     public void guessEvent(ActionEvent actionEvent) {
         if(!guessInput.getText().isEmpty()){
             this.guessWord(guessInput.getText());
-            guessInput.setText("");
+
+            guessInput.clear();
         }
     }
 
@@ -137,7 +144,7 @@ public class GameScreenController implements Initializable {
         if (keyEvent.getCode().equals(KeyCode.ENTER) && !guessInput.getText().isEmpty())
         {
             this.guessWord(guessInput.getText());
-            guessInput.setText("");
+            guessInput.clear();
         }
     }
 

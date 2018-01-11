@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Room {
     private Chat chat;
@@ -14,6 +15,8 @@ public class Room {
         this.chat = new Chat();
         this.drawing = new Drawing();
         this.activePlayer = new ActivePlayer(host);
+        this.players = new ArrayList<>();
+        this.addPlayer(host);
     }
 
     public Room (Player host, ArrayList<Player> players,Drawing drawing,Chat chat){
@@ -37,7 +40,7 @@ public class Room {
     }
 
     public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
+        this.players = new ArrayList<>(players);
     }
     public void addPlayer(Player player){
         this.players.add(player);
@@ -59,7 +62,17 @@ public class Room {
         return activePlayer;
     }
 
-    public void setActivePlayer(ActivePlayer activePlayer) {
-        this.activePlayer = activePlayer;
+    public void setActivePlayer(Player activePlayer) {
+        this.activePlayer = new ActivePlayer(activePlayer);
     }
+
+    public boolean guessWord(String guess){
+        guess = guess.toLowerCase();
+        String guessWord = getActivePlayer().getWord().toLowerCase();
+        if(Objects.equals(guess, guessWord)) {
+            return true;
+        }
+        return false;
+    }
+
 }

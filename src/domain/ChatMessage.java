@@ -1,13 +1,14 @@
 package domain;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ChatMessage {
     private String message;
-    private Date time;
+    private LocalDateTime time;
     private String sender;
 
-    public ChatMessage(String message, Date time, String sender) {
+    public ChatMessage(String message, LocalDateTime time, String sender) {
         this.message = message;
         this.time = time;
         this.sender = sender;
@@ -15,10 +16,7 @@ public class ChatMessage {
 
     @Override
     public String toString() {
-        return "ChatMessage{" +
-                "message='" + message + '\'' +
-                ", time=" + time +
-                ", sender='" + sender + '\'' +
-                '}';
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        return "["+time.format(dtf)+"] "+sender+": "+message;
     }
 }
