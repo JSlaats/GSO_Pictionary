@@ -39,6 +39,18 @@ public class GameScreenController implements Initializable{
     IRoom room = GameClient.getInstance().getRoom();
 
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        GameClient.getInstance().setGameScreenController(this);
+        this.gc = drawingCanvas.getGraphicsContext2D();
+        sizeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            setBrushSize();
+        });
+        colorInput.getItems().addAll("Black","Red","Green","Blue","Yellow");
+        colorInput.setValue("Black");
+        updateWordLabel();
+    }
+
     public void leaveRoom(ActionEvent actionEvent) {
         try {
             System.out.println(room.getActivePlayer().getWord());
@@ -105,17 +117,6 @@ public class GameScreenController implements Initializable{
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        this.gc = drawingCanvas.getGraphicsContext2D();
-        sizeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            setBrushSize();
-        });
-        colorInput.getItems().addAll("Black","Red","Green","Blue","Yellow");
-        colorInput.setValue("Black");
-        updateWordLabel();
-
-    }
     public void updateWordLabel(){
         try {
             System.out.println("Word: "+room.getActivePlayer().getWord());

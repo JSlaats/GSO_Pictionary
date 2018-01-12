@@ -15,8 +15,10 @@ public class Chat extends UnicastRemoteObject implements IChat{
         this.messages = new ArrayList<>();
     }
 
-    public ArrayList<ChatMessage> getMessages() {
-        return messages;
+    public ArrayList<String> getMessages() {
+        ArrayList<String> msgList = new ArrayList<>();
+        messages.forEach(msg -> msgList.add(msg.toString()));
+        return msgList;
     }
 
     public void setMessage(String message, LocalDateTime time, String sender){

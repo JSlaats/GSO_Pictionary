@@ -14,7 +14,7 @@ public class GameClient {
     private static GameClient CLIENT_INSTANCE = new GameClient(ipAddress,portNumber);
     private Registry registry;
     private IRoom room;
-
+    private GameScreenController controller;
 
     public IRoom getRoom(){
         return room;
@@ -27,6 +27,10 @@ public class GameClient {
         return CLIENT_INSTANCE;
     }
 
+    public void setGameScreenController(GameScreenController controller){
+        this.controller = controller;
+    }
+    
     private GameClient(String ipAddress, int portNumber) {
         System.out.println("Client: IP Address: " + ipAddress);
         System.out.println("Client: Port number " + portNumber);
