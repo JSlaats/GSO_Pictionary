@@ -1,9 +1,11 @@
 package domain;
 
+import Interfaces.IBrushProperties;
+
 import java.io.Serializable;
 import java.rmi.Remote;
 
-public class BrushProperties implements Serializable, Remote {
+public class BrushProperties implements Serializable, IBrushProperties {
     private int width;
     private int r,g,b;
 
@@ -14,13 +16,12 @@ public class BrushProperties implements Serializable, Remote {
         this.b = 0;
     }
 
-    public BrushProperties(int width, int r, int g, int b) {
+    public BrushProperties(int width,int r, int g, int b){
         this.width = width;
         this.r = r;
         this.g = g;
         this.b = b;
     }
-
     public int getWidth() {
         return width;
     }
@@ -46,4 +47,5 @@ public class BrushProperties implements Serializable, Remote {
         this.g = g;
         this.b = b;
     }
+
 }

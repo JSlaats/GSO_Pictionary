@@ -1,17 +1,21 @@
 package domain;
 
 import Interfaces.IActivePlayer;
+import Interfaces.IBrushProperties;
 
 import java.io.Serializable;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
-public class ActivePlayer implements Serializable, IActivePlayer {
-    private Player activePlayer;
+public class ActivePlayer extends UnicastRemoteObject implements IActivePlayer {
+    private Player player;
     private BrushProperties brush;
-    public String word;
+    private String word;
 
-    public ActivePlayer(Player player) {
-        this.activePlayer = player;
+    public ActivePlayer(Player player) throws RemoteException {
+        super();
+        this.player = player;
         this.brush = new BrushProperties();
         this.word = this.generateWord();
     }
@@ -27,19 +31,26 @@ public class ActivePlayer implements Serializable, IActivePlayer {
         this.word = word;
     }
 
-    public Player getActivePlayer() {
-        return activePlayer;
+    public Player getPlayer() {
+        return player;
     }
 
-    public void setActivePlayer(Player activePlayer) {
-        this.activePlayer = activePlayer;
-    }
+/*    public void setPlayer(Player player) {
+        this.player = player;
+    }*/
 
-    public BrushProperties getBrush() {
+    public IBrushProperties getBrush() {
         return brush;
     }
 
-    public void setBrush(BrushProperties brush) {
-        this.brush = brush;
+    public void setBrush(IBrushProperties brush) {
+        this.brush = (BrushProperties)brush;
+    }
+    public void setBrushWidth(int width){
+        this.brush.setWidth(width);
+    }
+
+    public void setBrushColor(int r, int g, int b) {
+        this.brush.setColor(r,g,b);
     }
 }

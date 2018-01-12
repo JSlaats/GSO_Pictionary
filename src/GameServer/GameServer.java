@@ -13,11 +13,22 @@ public class GameServer {
     private static final int portNumber = 1099;
     private static final String bindingName = "room";
 
+    private static final GameServer SERVER_INSTANCE = new GameServer();
+    private Room room;
 
-    public GameServer() {
+
+    public Room getRoom(){
+        return room;
+    }
+
+    public static GameServer getInstance(){
+        return SERVER_INSTANCE;
+    }
+
+    private GameServer() {
         System.out.println("Server: Port number 1099");
 
-        Room room = null;
+        room = null;
         try {
             room = new Room(new Player("JelleRMI"));
             room.getHost().setScore(1337);
@@ -49,13 +60,13 @@ public class GameServer {
             System.out.println("Server: RemoteException: " + var2.getMessage());
         }
 
-        try {
+       /* try {
             printIPAddresses();
         }
         catch (java.net.UnknownHostException uhe)
         {
             System.out.print(uhe.getMessage());
-        }
+        }*/
     }
 
     private static void printIPAddresses() throws java.net.UnknownHostException {
@@ -76,6 +87,6 @@ public class GameServer {
     public static void main(String[] args) throws java.net.UnknownHostException {
         System.out.println("SERVER USING REGISTRY");
         printIPAddresses();
-        new GameServer();
+        //new GameServer();
     }
 }

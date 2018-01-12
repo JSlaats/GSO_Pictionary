@@ -1,33 +1,41 @@
 package domain;
 
+import GameServer.GameServer;
+import Interfaces.IBrushProperties;
 import Interfaces.IDrawing;
+import Interfaces.IStroke;
 
+import java.awt.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 public class Drawing extends UnicastRemoteObject implements IDrawing {
-    private ArrayList<Stroke> strokes;
+    private ArrayList<IStroke> strokes;
 
     public Drawing() throws RemoteException {
         this.strokes = new ArrayList<>();
     }
 
-    public Drawing(ArrayList<Stroke> strokes)throws RemoteException {
-        this.strokes = strokes;
+    public ArrayList<IStroke> getStrokes() {
+        return new ArrayList<>(strokes);
     }
 
-    public ArrayList<Stroke> getStrokes() {
-        return strokes;
+
+    public IStroke getLastStroke(){
+        return this.strokes.get(this.strokes.size()-1);
     }
 
-    public void setStrokes(ArrayList<Stroke> strokes) {
-        this.strokes = new ArrayList<Stroke>(strokes);
+    public void setStroke(Point position) {
+        try {
+            IBrushProperties b = GameServer.getInstance().getRoom().getActivePlayer().getBrush();
+            BrushProperties brush = new BrushProperties(b.getWidth(),b.getR(),b.getG(),b.getB());
+            this.strokes.add(new Stroke(position,brush));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setStroke(Stroke stroke){
-        this.strokes.add(stroke);
-    }
     public void clear(){
         this.strokes.clear();
     }

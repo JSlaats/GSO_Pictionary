@@ -1,15 +1,17 @@
 package domain;
 
+import Interfaces.IChat;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Chat {
+public class Chat extends UnicastRemoteObject implements IChat{
     private ArrayList<ChatMessage> messages;
 
-    public Chat(ArrayList<ChatMessage> messages) {
-        this.messages = new ArrayList<>(messages);
-    }
-
-    public Chat() {
+    public Chat() throws RemoteException {
+        super();
         this.messages = new ArrayList<>();
     }
 
@@ -17,11 +19,11 @@ public class Chat {
         return messages;
     }
 
-    public void setMessages(ArrayList<ChatMessage> messages) {
-        this.messages = messages;
+    public void setMessage(String message, LocalDateTime time, String sender){
+        this.messages.add(new ChatMessage(message, time, sender));
+    }
+    public String getLastMessage(){
+        return this.messages.get(this.messages.size()-1).toString();
     }
 
-    public void setMessage(ChatMessage message){
-        this.messages.add(message);
-    }
 }

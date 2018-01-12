@@ -1,6 +1,6 @@
 package domain;
 
-import Interfaces.IRoom;
+import Interfaces.*;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -11,7 +11,7 @@ public class Room extends UnicastRemoteObject implements IRoom{
     private Chat chat;
     private Player host;
     private ActivePlayer activePlayer;
-    private ArrayList<Player> players;
+    private ArrayList<IPlayer> players;
     private Drawing drawing;
 
     public Room(Player host) throws RemoteException {
@@ -23,13 +23,9 @@ public class Room extends UnicastRemoteObject implements IRoom{
         this.addPlayer(host);
     }
 
-    /*public Room (Player host, ArrayList<Player> players,Drawing drawing,Chat chat) throws RemoteException{
-        this.host = host;
-        this.players = players;
-        this.drawing = drawing;
-        this.chat = chat;
-        this.activePlayer = new ActivePlayer(host);
-    }*/
+    public IChat getChat() {
+        return chat;
+    }
 
     public Player getHost(){
         return host;
@@ -39,35 +35,31 @@ public class Room extends UnicastRemoteObject implements IRoom{
         this.host = host;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public ArrayList<IPlayer> getPlayers() {
         return players;
     }
-/*
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = new ArrayList<>(players);
-    }*/
 
     public void addPlayer(Player player){
         this.players.add(player);
     }
 
-    public Drawing getDrawing() {
+    public IDrawing getDrawing() {
         return drawing;
     }
-/*
-    public void setDrawing(Drawing drawing) {
-        this.drawing = drawing;
-    }*/
 
-    public ActivePlayer getActivePlayer() {
+    public IActivePlayer getActivePlayer() {
         return activePlayer;
     }
 
     private void setActivePlayer(Player activePlayer) {
-        this.activePlayer = new ActivePlayer(activePlayer);
+        try {
+            this.activePlayer = new ActivePlayer(activePlayer);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
-    public boolean guessWord(String guess){
+    public boolean guessWord(String guess) throws RemoteException {
         guess = guess.toLowerCase();
         String guessWord = getActivePlayer().getWord().toLowerCase();
         if(Objects.equals(guess, guessWord)) {

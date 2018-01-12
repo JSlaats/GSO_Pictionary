@@ -1,14 +1,14 @@
 package Interfaces;
 
-import domain.Stroke;
-
+import java.awt.*;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface IDrawing extends Remote {
-    ArrayList<Stroke> getStrokes() throws  RemoteException;
-    void setStrokes(ArrayList<Stroke> strokes) throws RemoteException;
-    void setStroke(Stroke stroke) throws RemoteException;
+    ArrayList<IStroke> getStrokes() throws  RemoteException;
+    void setStroke(Point position) throws RemoteException;
+    IStroke getLastStroke() throws RemoteException;
+
     void clear() throws RemoteException;
 }

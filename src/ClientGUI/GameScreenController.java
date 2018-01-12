@@ -1,8 +1,6 @@
 package ClientGUI;
 
-import Interfaces.IPlayer;
-import Interfaces.IRoom;
-import domain.Stroke;
+import Interfaces.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
@@ -42,16 +40,19 @@ public class GameScreenController implements Initializable{
 
 
     public void leaveRoom(ActionEvent actionEvent) {
-
+        try {
+            System.out.println(room.getActivePlayer().getWord());
+            room.getActivePlayer().setWord("Test");
+            System.out.println(room.getActivePlayer().getWord());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     private void sendChatMessage() throws RemoteException {
         LocalDateTime now = LocalDateTime.now();
-
-        //ChatMessage message = new ChatMessage(chatInput.getText(), now,room.getHost().toString());
-        //chatBox.appendText(message.toString()+"\n\r");
-
-        chatBox.appendText(chatInput.getText()+"\n\r");
+        room.getChat().setMessage(chatInput.getText(),now,room.getHost().toString());
+        chatBox.appendText(room.getChat().getLastMessage()+"\n\r");
         chatInput.setText("");
     }
     private void guessWord(String guess) throws RemoteException {
@@ -81,33 +82,26 @@ public class GameScreenController implements Initializable{
         }
     }
     public void setStroke(MouseEvent mouseEvent) throws RemoteException {
-        int r = room.getActivePlayer().getBrush().getR();
-        int g = room.getActivePlayer().getBrush().getG();
-        int b = room.getActivePlayer().getBrush().getB();
+        //send stroke to server
+        room.getDrawing().setStroke(new Point((int)mouseEvent.getX(),(int)mouseEvent.getY()));
+        //draw stroke from server
+        drawStroke(room.getDrawing().getLastStroke());
+        System.out.println(room.getDrawing().getStrokes().size());
+    }
+    public void drawStroke(IStroke stroke) throws RemoteException{
+        int r = stroke.getBrush().getR();
+        int g = stroke.getBrush().getG();
+        int b = stroke.getBrush().getB();
         Paint color = Color.rgb(r,g,b);
-        int width = room.getActivePlayer().getBrush().getWidth();
+        int width = stroke.getBrush().getWidth();
         gc.setStroke(color);
         gc.setFill(color);
-        gc.fillOval((int)mouseEvent.getX(),(int)mouseEvent.getY(),width,width);
-
-
-        room.getDrawing().setStroke(new Stroke(
-                new Point((int)mouseEvent.getX(),(int)mouseEvent.getY()),
-                room.getActivePlayer().getBrush()
-        ));
-      //  System.out.println(room.getDrawing().getStrokes().size());
+        gc.fillOval(stroke.getPosition().x,stroke.getPosition().y,width,width);
     }
 
-    public void draw() throws RemoteException {
-        for (Stroke s:room.getDrawing().getStrokes()) {
-            int r = s.getBrush().getR();
-            int g = s.getBrush().getG();
-            int b = s.getBrush().getB();
-            Paint color = Color.rgb(r,g,b);
-            int width = s.getBrush().getWidth();
-            gc.setStroke(color);
-            gc.setFill(color);
-            gc.fillOval(s.getPosition().x,s.getPosition().y,width,width);
+    public void drawAll() throws RemoteException {
+        for (IStroke s:room.getDrawing().getStrokes()) {
+            this.drawStroke(s);
         }
     }
 
@@ -135,7 +129,7 @@ public class GameScreenController implements Initializable{
         gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
         room.getDrawing().clear();*/
         try {
-            draw();
+            drawAll();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -146,9 +140,9 @@ public class GameScreenController implements Initializable{
         double val = sizeSlider.getValue();
         System.out.println(val);
         try {
-            room.getActivePlayer().getBrush().setWidth((int)val);
+            room.getActivePlayer().setBrushWidth((int)val);
+            //room.getActivePlayer().getBrush().setWidth((int)val);
             System.out.println(room.getActivePlayer().getBrush().getWidth());
-
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -183,7 +177,7 @@ public class GameScreenController implements Initializable{
                 break;
         }
 
-        room.getActivePlayer().getBrush().setColor(r,g,b);
+        room.getActivePlayer().setBrushColor(r,g,b);
     }
 
     public void guessEvent(ActionEvent actionEvent) {
