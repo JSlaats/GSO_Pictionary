@@ -1,7 +1,6 @@
 package ClientGUI;
 
-import Interfaces.IPlayer;
-import Interfaces.IRoom;
+import ServerManager.IRoomsList;
 import ServerManager.data_access_layer.utilities.ILogin;
 
 import java.rmi.NotBoundException;
@@ -9,35 +8,34 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-public class GameClient {
+public class ManagerClient {
     private static String ipAddress = "127.0.0.1";
-    private static int portNumber = 1099;
-    private static GameClient CLIENT_INSTANCE = new GameClient(ipAddress,portNumber);
-    private Registry registry;
-    private IRoom room;
-    private GameScreenController controller;
+    private static int portNumber = 1098;
+    private static final String bindingName = "roomlist";
 
-    public IRoom getRoom(){
-        return room;
+    private static ManagerClient CLIENT_INSTANCE = new ManagerClient(ipAddress,portNumber);
+    private Registry registry;
+    private IRoomsList roomsList;
+    private ILogin login;
+
+    public ILogin getLogin(){return login;}
+
+    public IRoomsList getRoomsList(){
+        return roomsList;
     }
 
-    public static GameClient getInstance(){
+    public static ManagerClient getInstance(){
         if(CLIENT_INSTANCE == null){
-            CLIENT_INSTANCE = new GameClient(ipAddress,portNumber);
+            CLIENT_INSTANCE = new ManagerClient(ipAddress,portNumber);
         }
         return CLIENT_INSTANCE;
     }
 
-    public void setGameScreenController(GameScreenController controller){
-        this.controller = controller;
-    }
-    
-    private GameClient(String ipAddress, int portNumber) {
+    private ManagerClient(String ipAddress, int portNumber) {
         System.out.println("Client: IP Address: " + ipAddress);
         System.out.println("Client: Port number " + portNumber);
 
         try {
-
             this.registry = LocateRegistry.getRegistry(ipAddress, portNumber);
         } catch (RemoteException var6) {
             System.out.println("Client: Cannot locate registry");
@@ -58,26 +56,26 @@ public class GameClient {
 
         if(this.registry != null) {
             try {
-                room = (IRoom)this.registry.lookup("room");
-
+                login = (ILogin) this.registry.lookup("login");
+                roomsList = (IRoomsList) this.registry.lookup(bindingName);
             } catch (RemoteException var4) {
-                System.out.println("Client: Cannot bind room");
+                System.out.println("Client: Cannot bind "+bindingName);
                 System.out.println("Client: RemoteException: " + var4.getMessage());
-                room = null;
+                roomsList = null;
             } catch (NotBoundException var5) {
-                System.out.println("Client: Cannot bind room");
+                System.out.println("Client: Cannot bind "+bindingName);
                 System.out.println("Client: NotBoundException: " + var5.getMessage());
-                room = null;
+                roomsList = null;
             }
         }
 
-        if(room != null) {
-            System.out.println("Client: room bound");
+        if(roomsList != null) {
+            System.out.println("Client: "+bindingName+" bound");
         } else {
-            System.out.println("Client: room is null pointer");
+            System.out.println("Client: "+bindingName+" is null pointer");
         }
 
-        if(room != null) {
+        if(roomsList != null) {
 
             try {
                 this.testGetRoom();
@@ -89,11 +87,13 @@ public class GameClient {
     }
 
     private void testGetRoom() throws RemoteException {
-        System.out.println("Client: Host is " + room.getHost().getName()+" score:"+room.getHost().getScore());
-        /*System.out.println(room.getDrawing());
-        for (IPlayer p:room.getPlayers()) {
-            System.out.println(p.getName());
-        }*/
+        roomsList.getRoomsList().forEach(rooms -> {
+            try {
+                System.out.println(rooms.getHost());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void printContentsRegistry() {

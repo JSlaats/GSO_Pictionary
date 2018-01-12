@@ -23,7 +23,11 @@ public class Drawing extends UnicastRemoteObject implements IDrawing {
 
 
     public IStroke getLastStroke(){
-        return this.strokes.get(this.strokes.size()-1);
+        if(this.strokes.size()>0) {
+            return this.strokes.get(this.strokes.size() - 1);
+        }else{
+            return null;
+        }
     }
 
     public void setStroke(Point position) {

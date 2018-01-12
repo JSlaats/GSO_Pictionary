@@ -1,5 +1,6 @@
 package domain;
 
+
 import Interfaces.IChat;
 
 import java.rmi.RemoteException;

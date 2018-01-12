@@ -1,7 +1,6 @@
 package GameServer;
 
-import domain.Player;
-import domain.Room;
+import domain.*;
 
 import java.net.InetAddress;
 import java.rmi.Remote;
@@ -86,7 +85,7 @@ public class GameServer {
     }
     public static void main(String[] args) throws java.net.UnknownHostException {
         System.out.println("SERVER USING REGISTRY");
-        printIPAddresses();
+        //printIPAddresses();
         //new GameServer();
     }
 }

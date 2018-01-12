@@ -1,9 +1,9 @@
 package domain;
 
+
 import Interfaces.IBrushProperties;
 
 import java.io.Serializable;
-import java.rmi.Remote;
 
 public class BrushProperties implements Serializable, IBrushProperties {
     private int width;

@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
@@ -32,6 +33,7 @@ public class GameScreenController implements Initializable{
     public ComboBox<String> colorInput;
     public Label wordLabel;
     public TextField guessInput;
+    public AnchorPane mainPane;
     private GraphicsContext gc;
 
 
@@ -101,14 +103,16 @@ public class GameScreenController implements Initializable{
         System.out.println(room.getDrawing().getStrokes().size());
     }
     public void drawStroke(IStroke stroke) throws RemoteException{
-        int r = stroke.getBrush().getR();
-        int g = stroke.getBrush().getG();
-        int b = stroke.getBrush().getB();
-        Paint color = Color.rgb(r,g,b);
-        int width = stroke.getBrush().getWidth();
-        gc.setStroke(color);
-        gc.setFill(color);
-        gc.fillOval(stroke.getPosition().x,stroke.getPosition().y,width,width);
+        if(stroke != null) {
+            int r = stroke.getBrush().getR();
+            int g = stroke.getBrush().getG();
+            int b = stroke.getBrush().getB();
+            Paint color = Color.rgb(r, g, b);
+            int width = stroke.getBrush().getWidth();
+            gc.setStroke(color);
+            gc.setFill(color);
+            gc.fillOval(stroke.getPosition().x, stroke.getPosition().y, width, width);
+        }
     }
 
     public void drawAll() throws RemoteException {
