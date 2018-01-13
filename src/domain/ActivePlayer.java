@@ -32,10 +32,6 @@ public class ActivePlayer extends UnicastRemoteObject implements IActivePlayer {
         return player;
     }
 
-/*    public void setPlayer(Player player) {
-        this.player = player;
-    }*/
-
     public IBrushProperties getBrush() {
         return brush;
     }

@@ -32,10 +32,6 @@ public class Room extends UnicastRemoteObject implements IRoom{
         return host;
     }
 
-    public void setHost(Player host) {
-        this.host = host;
-    }
-
     public ArrayList<IPlayer> getPlayers() {
         return players;
     }
