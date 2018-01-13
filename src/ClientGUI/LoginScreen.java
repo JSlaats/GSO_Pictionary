@@ -4,8 +4,10 @@ import Interfaces.IPlayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,6 +20,7 @@ public class LoginScreen implements Initializable {
     public TextField inputUsername;
     public TextField inputPassword;
     public AnchorPane mainPane;
+    public Label msgLabel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -30,13 +33,19 @@ public class LoginScreen implements Initializable {
             try {
                 IPlayer player = ManagerClient.getInstance().getLogin().login(inputUsername.getText(),inputPassword.getText());
                 if(player != null){
+                    msgLabel.setTextFill(Color.GREEN);
+                    msgLabel.setText("Login was successfull");
                     System.out.println("Login was successfull");
                     toRoomScreen();
                 }else{
+                    msgLabel.setTextFill(Color.RED);
+                    msgLabel.setText("Login failed");
                     System.out.println("Login failed");
                 }
             } catch (SQLException | RemoteException e) {
-                e.printStackTrace();
+                msgLabel.setTextFill(Color.RED);
+                msgLabel.setText("Connection failed");
+               // e.printStackTrace();
             }
         }
     }
@@ -46,13 +55,19 @@ public class LoginScreen implements Initializable {
             try {
                 boolean success = ManagerClient.getInstance().getLogin().register(inputUsername.getText(),inputPassword.getText());
                 if(success){
+                    msgLabel.setTextFill(Color.GREEN);
+                    msgLabel.setText("You are registered, you may now log in");
                     System.out.println("You are registered, you may now log in");
                 }
             } catch (SQLException e) {
+                msgLabel.setTextFill(Color.RED);
+                msgLabel.setText("Register failed");
                 System.out.println("Something went wrong with registering");
                 e.printStackTrace();
             } catch (RemoteException e) {
-                e.printStackTrace();
+                msgLabel.setTextFill(Color.RED);
+                msgLabel.setText("Connection failed");
+               // e.printStackTrace();
             }
         }
     }
