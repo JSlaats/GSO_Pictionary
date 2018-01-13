@@ -9,32 +9,31 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class GameServer {
-    private static final int portNumber = 1099;
+    private static int portNumber = 1099;
+    private static String host = null;
     private static final String bindingName = "room";
 
-    private static final GameServer SERVER_INSTANCE = new GameServer();
+    private static GameServer SERVER_INSTANCE = null;
     private Room room;
-
 
     public Room getRoom(){
         return room;
     }
 
     public static GameServer getInstance(){
+        if(SERVER_INSTANCE == null){
+            SERVER_INSTANCE = new GameServer();
+        }
         return SERVER_INSTANCE;
     }
 
     private GameServer() {
-        System.out.println("Server: Port number 1099");
+        System.out.println("Server: Port number "+portNumber);
 
         room = null;
         try {
-            room = new Room(new Player("JelleRMI"));
-            room.getHost().setScore(1337);
-            room.addPlayer(new Player("Henk"));
-            room.addPlayer(new Player("Piet"));
-            room.addPlayer(new Player("Frank"));
-
+            room = new Room(new Player(host));
+            System.out.println("Host: "+room.getHost().getName());
             System.out.println("Server: room created");
         } catch (RemoteException var4) {
             System.out.println("Server: Cannot create Room");
@@ -44,8 +43,8 @@ public class GameServer {
 
         Registry registry = null;
         try {
-            registry = LocateRegistry.createRegistry(1099);
-            System.out.println("Server: Registry created on port number 1099");
+            registry = LocateRegistry.createRegistry(portNumber);
+            System.out.println("Server: Registry created on port number "+portNumber);
         } catch (RemoteException var3) {
             System.out.println("Server: Cannot create registry");
             System.out.println("Server: RemoteException: " + var3.getMessage());
@@ -53,39 +52,24 @@ public class GameServer {
         }
 
         try {
-            registry.rebind("room", (Remote) room);
+            registry.rebind(bindingName, (Remote) room);
         } catch (RemoteException var2) {
-            System.out.println("Server: Cannot bind room");
+            System.out.println("Server: Cannot bind "+bindingName);
             System.out.println("Server: RemoteException: " + var2.getMessage());
         }
 
-       /* try {
-            printIPAddresses();
-        }
-        catch (java.net.UnknownHostException uhe)
-        {
-            System.out.print(uhe.getMessage());
-        }*/
     }
 
-    private static void printIPAddresses() throws java.net.UnknownHostException {
-        InetAddress ex = InetAddress.getLocalHost();
-        System.out.println("Server: IP Address: " + ex.getHostAddress());
-        InetAddress[] intf = InetAddress.getAllByName(ex.getCanonicalHostName());
-        if(intf != null && intf.length > 1) {
-            System.out.println("Server: Full list of IP addresses:");
-            InetAddress[] enumIpAddr = intf;
-            int var3 = intf.length;
-
-            for(int var4 = 0; var4 < var3; ++var4) {
-                InetAddress allMyIp = enumIpAddr[var4];
-                System.out.println("    " + allMyIp);
-            }
-        }
-    }
     public static void main(String[] args) throws java.net.UnknownHostException {
-        System.out.println("SERVER USING REGISTRY");
-        //printIPAddresses();
-        //new GameServer();
+        System.out.println("STARTING GAMESERVER");
+
+        for(String str : args){
+            System.out.println(str);
+        }
+
+        portNumber = Integer.parseInt(args[0]);
+        host = args[1];
+        SERVER_INSTANCE = new GameServer();
+        System.out.println("GAMESERVER RUNNING");
     }
 }

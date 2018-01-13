@@ -100,7 +100,6 @@ public class GameScreenController implements Initializable{
         room.getDrawing().setStroke(new Point((int)mouseEvent.getX(),(int)mouseEvent.getY()));
         //draw stroke from server
         drawStroke(room.getDrawing().getLastStroke());
-        System.out.println(room.getDrawing().getStrokes().size());
     }
     public void drawStroke(IStroke stroke) throws RemoteException{
         if(stroke != null) {
@@ -147,7 +146,6 @@ public class GameScreenController implements Initializable{
         try {
             room.getActivePlayer().setBrushWidth((int)val);
             //room.getActivePlayer().getBrush().setWidth((int)val);
-            System.out.println(room.getActivePlayer().getBrush().getWidth());
         } catch (RemoteException e) {
             e.printStackTrace();
         }

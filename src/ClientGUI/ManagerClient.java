@@ -1,5 +1,6 @@
 package ClientGUI;
 
+import Interfaces.IPlayer;
 import ServerManager.IRoomsList;
 import ServerManager.data_access_layer.utilities.ILogin;
 
@@ -17,8 +18,17 @@ public class ManagerClient {
     private Registry registry;
     private IRoomsList roomsList;
     private ILogin login;
+    private IPlayer localPlayer;
 
     public ILogin getLogin(){return login;}
+
+    public IPlayer getLocalPlayer() {
+        return localPlayer;
+    }
+
+    public void setLocalPlayer(IPlayer localPlayer) {
+        this.localPlayer = localPlayer;
+    }
 
     public IRoomsList getRoomsList(){
         return roomsList;
@@ -50,9 +60,9 @@ public class ManagerClient {
             System.out.println("Client: Registry is null pointer");
         }
 
-        if(this.registry != null) {
+/*        if(this.registry != null) {
             this.printContentsRegistry();
-        }
+        }*/
 
         if(this.registry != null) {
             try {
@@ -75,18 +85,18 @@ public class ManagerClient {
             System.out.println("Client: "+bindingName+" is null pointer");
         }
 
-        if(roomsList != null) {
+/*        if(roomsList != null) {
 
             try {
                 this.testGetRoom();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
     }
 
-    private void testGetRoom() throws RemoteException {
+   /* private void testGetRoom() throws RemoteException {
         roomsList.getRoomsList().forEach(rooms -> {
             try {
                 System.out.println(rooms.getHost());
@@ -116,5 +126,5 @@ public class ManagerClient {
             System.out.println("Client: RemoteException: " + var6.getMessage());
         }
 
-    }
+    }*/
 }

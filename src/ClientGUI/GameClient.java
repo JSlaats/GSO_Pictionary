@@ -12,13 +12,17 @@ import java.rmi.registry.Registry;
 public class GameClient {
     private static String ipAddress = "127.0.0.1";
     private static int portNumber = 1099;
-    private static GameClient CLIENT_INSTANCE = new GameClient(ipAddress,portNumber);
+    private static GameClient CLIENT_INSTANCE = null;
     private Registry registry;
     private IRoom room;
     private GameScreenController controller;
 
     public IRoom getRoom(){
         return room;
+    }
+
+    public static void setInstance(String ipAddress,int portNumber){
+        CLIENT_INSTANCE = new GameClient(ipAddress,portNumber);
     }
 
     public static GameClient getInstance(){

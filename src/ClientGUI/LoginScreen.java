@@ -25,6 +25,7 @@ public class LoginScreen implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+
     }
 
     public void Login(ActionEvent actionEvent) {
@@ -33,6 +34,7 @@ public class LoginScreen implements Initializable {
             try {
                 IPlayer player = ManagerClient.getInstance().getLogin().login(inputUsername.getText(),inputPassword.getText());
                 if(player != null){
+                    ManagerClient.getInstance().setLocalPlayer(player);
                     msgLabel.setTextFill(Color.GREEN);
                     msgLabel.setText("Login was successfull");
                     System.out.println("Login was successfull");
@@ -42,10 +44,9 @@ public class LoginScreen implements Initializable {
                     msgLabel.setText("Login failed");
                     System.out.println("Login failed");
                 }
-            } catch (SQLException | RemoteException e) {
+            } catch (SQLException | RemoteException | NullPointerException ex) {
                 msgLabel.setTextFill(Color.RED);
                 msgLabel.setText("Connection failed");
-               // e.printStackTrace();
             }
         }
     }
@@ -64,10 +65,9 @@ public class LoginScreen implements Initializable {
                 msgLabel.setText("Register failed");
                 System.out.println("Something went wrong with registering");
                 e.printStackTrace();
-            } catch (RemoteException e) {
+            } catch (RemoteException | NullPointerException ex) {
                 msgLabel.setTextFill(Color.RED);
                 msgLabel.setText("Connection failed");
-               // e.printStackTrace();
             }
         }
     }

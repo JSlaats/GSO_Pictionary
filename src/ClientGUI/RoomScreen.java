@@ -1,5 +1,6 @@
 package ClientGUI;
 
+import GameServer.GameServer;
 import ServerManager.IRooms;
 import ServerManager.IRoomsList;
 import javafx.collections.FXCollections;
@@ -16,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.*;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
@@ -33,7 +35,6 @@ public class RoomScreen implements Initializable {
 
     private final ObservableList<IRooms> data =
         FXCollections.observableArrayList();
-    private ArrayList<IRooms> rl;
     public Button createRoomBtn;
     public TextField inputRoomName;
     public Button joinRoomBtn;
@@ -46,7 +47,6 @@ public class RoomScreen implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             data.addAll(ManagerClient.getInstance().getRoomsList().getRoomsList());
-            rl = ManagerClient.getInstance().getRoomsList().getRoomsList();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -69,10 +69,10 @@ public class RoomScreen implements Initializable {
 
     public void reloadTable(){
         try {
-            if(rl != ManagerClient.getInstance().getRoomsList().getRoomsList()) {
+            if(data.size() != ManagerClient.getInstance().getRoomsList().getRoomsList().size()) {
                 data.setAll(ManagerClient.getInstance().getRoomsList().getRoomsList());
             }else{
-                System.out.println("Roomslist is same, not refreshing");
+               // System.out.println("Roomslist is same, not refreshing");
             }
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -82,33 +82,46 @@ public class RoomScreen implements Initializable {
     public void CreateRoom(ActionEvent actionEvent) throws RemoteException {
         String roomName = inputRoomName.getText();
         if(!roomName.isEmpty()){
-            ManagerClient.getInstance().getRoomsList().add("randomhostName",roomName,getIpAdress(),1099);
+            String ip = getIpAdress();
+            int port = getPort();
+            String host = ManagerClient.getInstance().getLocalPlayer().getName();
+
+            ManagerClient.getInstance().getRoomsList().add(host,roomName,ip,port);
             reloadTable();
             try {
-                hostRoom();
+                hostRoom(ip,port,host);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+    private void hostRoom(String ip, int port, String host) throws IOException {
+        String[] params = new String[] {""+port, host};
+        //start new GameServer
+        GameServer.main(params);
+        GameClient.setInstance(ip,port);
+        toGameScreen();
+    }
+    private int getPort(){
+        try (ServerSocket socket = new ServerSocket(0)) {
+            socket.setReuseAddress(true);
+            return socket.getLocalPort();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 1099;
+    }
 
     public void JoinRoom(ActionEvent actionEvent) throws RemoteException {
         IRooms room = roomTable.getSelectionModel().getSelectedItem();
         if(room != null) {
-            System.out.print(room.getName());
+            GameClient.setInstance(room.getIpAdress(),room.getPort());
             toGameScreen();
         }
     }
 
-    private void hostRoom() throws IOException {
-        try {
 
-            //runProcess("javac -cp run src/GameServer/GameServer.java");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-    }
     private static String getIpAdress() {
         try{
             InetAddress ex = InetAddress.getLocalHost();
@@ -119,28 +132,6 @@ public class RoomScreen implements Initializable {
         return null;
     }
 
-    private static void runProcess(String command) throws Exception {
-        Process proc = Runtime.getRuntime().exec(command);
-        BufferedReader stdInput = new BufferedReader(new
-                InputStreamReader(proc.getInputStream()));
-
-        BufferedReader stdError = new BufferedReader(new
-                InputStreamReader(proc.getErrorStream()));
-
-        // read the output from the command
-        System.out.println("Here is the standard output of the command:\n");
-        String s = null;
-        while ((s = stdInput.readLine()) != null) {
-            System.out.println(s);
-        }
-
-        // read any errors from the attempted command
-        System.out.println("Here is the standard error of the command (if any):\n");
-        while ((s = stdError.readLine()) != null) {
-            System.out.println(s);
-        }
-
-    }
     private void toGameScreen(){
         try{
             timer.cancel();

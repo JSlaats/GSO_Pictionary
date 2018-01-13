@@ -21,7 +21,6 @@ public class ServerManager{
         roomsList = null;
         try {
             roomsList = new RoomsList();
-            roomsList.add("Jelle1", "Cool game", "127.0.0.1",1111);
             login = new Login();
 
             System.out.println("Server: roomList created");
