@@ -9,6 +9,7 @@ public interface IRoom extends Remote {
     IDrawing getDrawing() throws RemoteException;
     IChat getChat() throws RemoteException;
     ArrayList<IPlayer> getPlayers() throws RemoteException;
+    void addPlayer(IPlayer player) throws RemoteException;
     boolean guessWord(String guess) throws RemoteException;
     IActivePlayer getActivePlayer() throws RemoteException;
 }

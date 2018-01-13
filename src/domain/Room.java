@@ -40,8 +40,13 @@ public class Room extends UnicastRemoteObject implements IRoom{
         return players;
     }
 
-    public void addPlayer(Player player){
+    public void addPlayer(IPlayer player){
         this.players.add(player);
+        try {
+            System.out.println("added player: "+player.getName());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     public IDrawing getDrawing() {

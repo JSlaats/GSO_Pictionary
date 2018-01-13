@@ -2,7 +2,6 @@ package GameServer;
 
 import domain.*;
 
-import java.net.InetAddress;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;

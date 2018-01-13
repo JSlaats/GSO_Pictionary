@@ -2,7 +2,6 @@ package ClientGUI;
 
 import Interfaces.IPlayer;
 import Interfaces.IRoom;
-import ServerManager.data_access_layer.utilities.ILogin;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -13,9 +12,27 @@ public class GameClient {
     private static String ipAddress = "127.0.0.1";
     private static int portNumber = 1099;
     private static GameClient CLIENT_INSTANCE = null;
+    private static IPlayer localPlayer;
     private Registry registry;
     private IRoom room;
     private GameScreenController controller;
+    private static boolean isHost = false;
+
+    public static IPlayer getLocalPlayer() {
+        return localPlayer;
+    }
+
+    public static void setLocalPlayer(IPlayer localPlayer) {
+        GameClient.localPlayer = localPlayer;
+    }
+
+    public static void setIsHost(boolean ishost){
+        isHost = ishost;
+    }
+
+    public static boolean isHost(){
+        return isHost;
+    }
 
     public IRoom getRoom(){
         return room;

@@ -26,6 +26,6 @@ public class Player implements IPlayer, Serializable{
 
     @Override
     public String toString() {
-        return this.name;
+        return "Name: "+this.name + "  Score: "+this.getScore();
     }
 }

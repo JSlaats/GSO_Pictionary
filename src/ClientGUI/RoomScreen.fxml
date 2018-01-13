@@ -7,9 +7,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="mainPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientGUI.RoomScreen">
+<AnchorPane fx:id="mainPane" prefHeight="360.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientGUI.RoomScreen">
    <children>
-      <TableView fx:id="roomTable" prefHeight="200.0" prefWidth="600.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TableView fx:id="roomTable" prefHeight="200.0" prefWidth="340.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
           <TableColumn fx:id="roomCol" editable="false" minWidth="100" prefWidth="150.0" text="Room" />
           <TableColumn fx:id="hostCol" editable="false" minWidth="100" prefWidth="150.0" text="Host" />
@@ -21,10 +21,10 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button fx:id="createRoomBtn" layoutX="244.0" layoutY="343.0" mnemonicParsing="false" onAction="#CreateRoom" prefHeight="43.0" prefWidth="149.0" text="Create Room" />
-      <TextField fx:id="inputRoomName" layoutX="244.0" layoutY="310.0" />
-      <Button fx:id="joinRoomBtn" layoutX="513.0" layoutY="310.0" mnemonicParsing="false" onAction="#JoinRoom" prefHeight="65.0" prefWidth="73.0" text="Join Room" />
-      <Label layoutX="163.0" layoutY="314.0" text="Room name:" />
-      <Button layoutX="14.0" layoutY="310.0" mnemonicParsing="false" onAction="#reloadTable" text="Refresh" />
+      <Button fx:id="createRoomBtn" layoutX="244.0" layoutY="302.0" mnemonicParsing="false" onAction="#CreateRoom" prefHeight="43.0" prefWidth="149.0" text="Create Room" />
+      <TextField fx:id="inputRoomName" layoutX="244.0" layoutY="269.0" />
+      <Button fx:id="joinRoomBtn" layoutX="513.0" layoutY="269.0" mnemonicParsing="false" onAction="#JoinRoom" prefHeight="65.0" prefWidth="73.0" text="Join Room" />
+      <Label layoutX="169.0" layoutY="273.0" text="Room name:" />
+      <Button layoutX="14.0" layoutY="269.0" mnemonicParsing="false" onAction="#reloadTable" text="Refresh" />
    </children>
 </AnchorPane>

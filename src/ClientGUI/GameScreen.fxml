@@ -12,32 +12,32 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane  fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientGUI.GameScreenController">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientGUI.GameScreenController">
    <children>
-       <AnchorPane fx:id="menuPane" layoutX="4.0" layoutY="7.0" prefHeight="29.0" prefWidth="591.0" style="-fx-border-color: black;" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="7.0">
+       <AnchorPane fx:id="menuPane" layoutX="4.0" layoutY="7.0" prefHeight="9.0" prefWidth="631.0" style="-fx-border-color: black;" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="7.0">
          <children>
-            <Button fx:id="clearBtn" layoutY="-1.0" mnemonicParsing="false" onAction="#clearScreen" prefHeight="31.0" prefWidth="102.0" text="Clear screen" />
-            <Label layoutX="142.0" layoutY="4.0" text="Size:" />
-            <Slider fx:id="sizeSlider" layoutX="180.0" layoutY="5.0" majorTickUnit="3.0" max="25.0" min="2.0" minorTickCount="1" snapToTicks="true" value="7.0" />
-            <ComboBox fx:id="colorInput" layoutX="438.0" layoutY="-1.0" onAction="#setColor" prefWidth="150.0" />
-            <Label layoutX="383.0" layoutY="4.0" text="Color:" />
-            <Label layoutX="971.0" layoutY="4.0" text="Word:" />
-            <Label fx:id="wordLabel" layoutX="1030.0" layoutY="-2.0" text="Banaan">
+            <Button fx:id="clearBtn" layoutX="1.0" layoutY="1.0" mnemonicParsing="false" onAction="#clearScreen" prefHeight="32.0" prefWidth="102.0" text="Clear screen" />
+            <Label layoutX="122.0" layoutY="5.0" text="Size:" />
+            <Slider fx:id="sizeSlider" layoutX="156.0" layoutY="6.0" majorTickUnit="3.0" max="25.0" min="2.0" minorTickCount="1" prefHeight="14.0" prefWidth="81.0" snapToTicks="true" value="7.0" />
+            <ComboBox fx:id="colorInput" layoutX="282.0" layoutY="2.0" onAction="#setColor" prefHeight="25.0" prefWidth="102.0" />
+            <Label layoutX="241.0" layoutY="5.0" text="Color:" />
+            <Label fx:id="wordLabel" layoutX="451.0" layoutY="-2.0" text="Banaan">
                <font>
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
+            <Label layoutX="401.0" layoutY="5.0" text="Word:" />
          </children></AnchorPane>
-       <Pane fx:id="drawingPane" layoutX="4.0" layoutY="36.0" prefHeight="239.0" prefWidth="591.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="36.0">
+       <Pane fx:id="drawingPane" layoutX="4.0" layoutY="38.0" prefHeight="197.0" prefWidth="631.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="38.0">
          <children>
             <Canvas fx:id="drawingCanvas" height="559.0" onMouseDragged="#setStroke" onMousePressed="#setStroke" width="1271.0" />
+            <Button fx:id="sendBtn" layoutX="249.0" layoutY="289.0" mnemonicParsing="false" onAction="#sendChatMessageEvent" prefHeight="31.0" prefWidth="50.0" text="Send" />
+            <TextField fx:id="guessInput" layoutX="299.0" layoutY="289.0" onKeyPressed="#guessWordKey" prefHeight="31.0" prefWidth="149.0" />
+            <Button fx:id="guessBtn" layoutX="448.0" layoutY="289.0" mnemonicParsing="false" onAction="#guessEvent" prefHeight="31.0" prefWidth="50.0" text="Guess" />
          </children></Pane>
       <TextArea fx:id="chatBox" editable="false" focusTraversable="false" layoutX="4.0" layoutY="275.0" prefHeight="87.0" prefWidth="1076.0" wrapText="true" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="200.0" />
-      <TextField fx:id="chatInput" layoutX="4.0" layoutY="374.0" onKeyPressed="#sendChatMessageEventKey" prefHeight="31.0" prefWidth="662.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="614.0" />
-      <Button fx:id="sendBtn" layoutX="666.0" layoutY="688.0" mnemonicParsing="false" onAction="#sendChatMessageEvent" prefHeight="25.0" prefWidth="67.0" text="Send" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="547.0" />
-      <ListView fx:id="userList" layoutX="400.0" layoutY="276.0" prefHeight="96.0" prefWidth="196.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="28.0" AnchorPane.rightAnchor="4.0" />
-      <Button fx:id="leaveBtn" layoutX="519.0" layoutY="374.0" mnemonicParsing="false" onAction="#leaveRoom" text="Leave Room" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="0.0" />
-      <TextField fx:id="guessInput" layoutX="752.0" layoutY="688.0" onKeyPressed="#guessWordKey" />
-      <Button fx:id="guessBtn" layoutX="939.0" layoutY="688.0" mnemonicParsing="false" onAction="#guessEvent" prefHeight="31.0" prefWidth="67.0" text="Guess" />
+      <TextField fx:id="chatInput" layoutX="4.0" layoutY="374.0" onKeyPressed="#sendChatMessageEventKey" prefHeight="31.0" prefWidth="249.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="387.0" />
+      <ListView fx:id="userList" layoutX="400.0" layoutY="276.0" prefHeight="87.0" prefWidth="194.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="37.0" AnchorPane.rightAnchor="6.0" />
+      <Button fx:id="leaveBtn" layoutX="519.0" layoutY="374.0" mnemonicParsing="false" onAction="#leaveRoom" prefHeight="31.0" prefWidth="81.0" text="Leave Room" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="0.0" />
    </children>
 </AnchorPane>

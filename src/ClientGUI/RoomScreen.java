@@ -2,7 +2,6 @@ package ClientGUI;
 
 import GameServer.GameServer;
 import ServerManager.IRooms;
-import ServerManager.IRoomsList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,7 +20,6 @@ import java.net.ServerSocket;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -100,6 +98,7 @@ public class RoomScreen implements Initializable {
         //start new GameServer
         GameServer.main(params);
         GameClient.setInstance(ip,port);
+        GameClient.setIsHost(true);
         toGameScreen();
     }
     private int getPort(){
@@ -116,6 +115,7 @@ public class RoomScreen implements Initializable {
         IRooms room = roomTable.getSelectionModel().getSelectedItem();
         if(room != null) {
             GameClient.setInstance(room.getIpAdress(),room.getPort());
+            GameClient.setIsHost(false);
             toGameScreen();
         }
     }

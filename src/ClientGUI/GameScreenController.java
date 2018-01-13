@@ -1,6 +1,8 @@
 package ClientGUI;
 
 import Interfaces.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
@@ -34,8 +36,11 @@ public class GameScreenController implements Initializable{
     public Label wordLabel;
     public TextField guessInput;
     public AnchorPane mainPane;
+    public ListView userList;
     private GraphicsContext gc;
 
+    private final ObservableList<IPlayer> players =
+            FXCollections.observableArrayList();
 
     //Room room = new Room(new Player("Jelle"));
     IRoom room = GameClient.getInstance().getRoom();
@@ -51,6 +56,16 @@ public class GameScreenController implements Initializable{
         colorInput.getItems().addAll("Black","Red","Green","Blue","Yellow");
         colorInput.setValue("Black");
         updateWordLabel();
+        try {
+            GameClient.setLocalPlayer(ManagerClient.getInstance().getLocalPlayer());
+            if(!GameClient.isHost()) {
+                GameClient.getInstance().getRoom().addPlayer(GameClient.getLocalPlayer());
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        updateUserList();
+
     }
 
     public void leaveRoom(ActionEvent actionEvent) {
@@ -65,7 +80,7 @@ public class GameScreenController implements Initializable{
 
     private void sendChatMessage() throws RemoteException {
         LocalDateTime now = LocalDateTime.now();
-        room.getChat().setMessage(chatInput.getText(),now,room.getHost().toString());
+        room.getChat().setMessage(chatInput.getText(),now,GameClient.getLocalPlayer().getName());
         chatBox.appendText(room.getChat().getLastMessage()+"\n\r");
         chatInput.setText("");
     }
@@ -119,7 +134,14 @@ public class GameScreenController implements Initializable{
             this.drawStroke(s);
         }
     }
-
+    public void updateUserList(){
+        try {
+            players.setAll(GameClient.getInstance().getRoom().getPlayers());
+            userList.setItems(players);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
     public void updateWordLabel(){
         try {
             System.out.println("Word: "+room.getActivePlayer().getWord());
