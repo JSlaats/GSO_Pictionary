@@ -126,6 +126,7 @@ public class GameScreenController implements Initializable{
     }
 
     public void drawAll() throws RemoteException {
+
         for (IStroke s:room.getDrawing().getStrokes()) {
             this.drawStroke(s);
         }
@@ -147,17 +148,17 @@ public class GameScreenController implements Initializable{
         }
     }
     public void clearScreen()  {
-        /*
-        gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
-        room.getDrawing().clear();*/
         try {
-            drawAll();
+            room.getDrawing().clear();
+            clearLocalScreen();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
 
-
+    public void clearLocalScreen(){
+        gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
+    }
     public void setBrushSize()  {
         double val = sizeSlider.getValue();
         System.out.println(val);
@@ -226,5 +227,14 @@ public class GameScreenController implements Initializable{
         }
     }
 
+
+    public void refresh(ActionEvent actionEvent) {
+        try {
+            clearLocalScreen();
+            drawAll();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

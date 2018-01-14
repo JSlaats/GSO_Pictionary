@@ -42,7 +42,7 @@ public class Drawing extends UnicastRemoteObject implements IDrawing {
     }
 
     public void clear(){
-        this.strokes.clear();
+        this.strokes = new ArrayList<>();
     }
 
 }
