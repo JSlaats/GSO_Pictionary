@@ -39,6 +39,7 @@ public class ServerManager{
         }
 
         try {
+            assert registry != null;
             registry.rebind(bindingName, (Remote) roomsList);
             registry.rebind("login",(Remote)login);
         } catch (RemoteException var2) {

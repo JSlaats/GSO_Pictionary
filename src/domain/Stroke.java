@@ -33,4 +33,8 @@ public class Stroke implements Serializable, IStroke{
                 Objects.equals(brush, stroke.brush);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(position, brush);
+    }
 }

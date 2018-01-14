@@ -63,4 +63,9 @@ public class BrushProperties implements Serializable, IBrushProperties {
                 green == that.green &&
                 blue == that.blue;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(width, red, green, blue);
+    }
 }

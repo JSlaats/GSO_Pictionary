@@ -39,4 +39,8 @@ public class Player implements IPlayer, Serializable{
                 Objects.equals(name, player.name);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, score);
+    }
 }

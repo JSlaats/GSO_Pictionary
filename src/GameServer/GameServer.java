@@ -51,7 +51,9 @@ public class GameServer {
         }
 
         try {
-            registry.rebind(bindingName, (Remote) room);
+            if (registry != null) {
+                registry.rebind(bindingName, (Remote) room);
+            }
         } catch (RemoteException var2) {
             System.out.println("Server: Cannot bind "+bindingName);
             System.out.println("Server: RemoteException: " + var2.getMessage());
