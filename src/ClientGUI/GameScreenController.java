@@ -4,6 +4,7 @@ import Interfaces.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -30,18 +31,18 @@ import java.util.logging.Logger;
 public class GameScreenController implements Initializable{
     private final static Logger LOGGER = Logger.getLogger(GameScreenController.class.getName());
 
-    public TextField chatInput;
-    public TextArea chatBox;
-    public Button sendBtn;
-    public Button leaveBtn;
-    public Canvas drawingCanvas;
-    public Slider sizeSlider;
-    public ComboBox<String> colorInput;
-    public Label wordLabel;
-    public TextField guessInput;
-    public AnchorPane mainPane;
-    public ListView userList;
-    private GraphicsContext gc;
+    @FXML public TextField chatInput;
+    @FXML public TextArea chatBox;
+    @FXML public Button sendBtn;
+    @FXML public Button leaveBtn;
+    @FXML public Canvas drawingCanvas;
+    @FXML public Slider sizeSlider;
+    @FXML public ComboBox<String> colorInput;
+    @FXML public Label wordLabel;
+    @FXML public TextField guessInput;
+    @FXML public AnchorPane mainPane;
+    @FXML public ListView userList;
+    @FXML private GraphicsContext gc;
 
     private final ObservableList<IPlayer> players =
             FXCollections.observableArrayList();
