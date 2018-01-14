@@ -14,7 +14,7 @@ public class ClientGUI extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("LoginScreen.fxml"));
-        primaryStage.setTitle("Login");
+        primaryStage.setTitle("Pictionary");
         primaryStage.setScene(new Scene(root, 640, 360));
         primaryStage.show();
     }
