@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public interface IRoomsList extends Remote {
     /**
-     * De lijst met de rooms die op dit moment draaien
+     * Geeft een lijst met de rooms die op dit moment draaien
      * @return Lijst van IRooms
      * @throws RemoteException
      */

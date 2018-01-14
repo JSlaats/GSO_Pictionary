@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public interface IRoom extends Remote {
     /**
-     * Krijg de IPlayer van de speler die de room host
+     * Geeft de IPlayer van de speler die de room host
      * @return IPlayer van de host
      * @throws RemoteException
      */

@@ -6,14 +6,14 @@ import java.rmi.RemoteException;
 
 public interface IStroke extends Remote {
     /**
-     * Krijg de positie van de Stroke
+     * Geeft de positie van de Stroke
      * @return Point met de positie van de stroke
      * @throws RemoteException
      */
     Point getPosition() throws RemoteException;
 
     /**
-     * Krijg een instantie van IBrushProperties van de Stroke
+     * Geeft een instantie van IBrushProperties van de Stroke
      * @return IBrushProperties met de Width en Color van de stroke
      * @throws RemoteException
      */

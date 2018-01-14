@@ -16,7 +16,7 @@ public interface IChat extends Remote {
     void setMessage(String message, LocalDateTime time, String sender) throws RemoteException;
 
     /**
-     * Krijg het laatst toegevoegde chatbericht
+     * Geeft het laatst toegevoegde chatbericht
      * @return String van het laatst verstuurde chatbericht
      * @throws RemoteException
      */

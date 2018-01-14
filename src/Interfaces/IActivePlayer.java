@@ -5,14 +5,14 @@ import java.rmi.RemoteException;
 
 public interface IActivePlayer extends Remote {
     /**
-     * Krijg een instantie van IBrushProperties
+     * Geeft een instantie van IBrushProperties
      * @return IBrushProperties
      * @throws RemoteException
      */
     IBrushProperties getBrush() throws RemoteException;
 
     /**
-     * Krijg het woord wat getekend/geraden moet worden
+     * Geeft het woord wat getekend/geraden moet worden
      * @return String van het woord wat getekend/geraden moet worden
      * @throws RemoteException
      */
@@ -27,7 +27,7 @@ public interface IActivePlayer extends Remote {
 
 
     /**
-     * Set de kleur van de brush
+     * Zet de kleur van de brush
      * @param red int tussen 0 en 255 van de kleur rood
      * @param green int tussen 0 en 255 van de kleur groen
      * @param blue int tussen 0 en 255 van de kleur blauw
@@ -36,7 +36,7 @@ public interface IActivePlayer extends Remote {
     void setBrushColor(int red, int green, int blue) throws RemoteException;
 
     /**
-     * Krijg IPlayer van de actieve speler
+     * Geeft IPlayer van de actieve speler
      * @return IPlayer van de actieve speler
      * @throws RemoteException
      */

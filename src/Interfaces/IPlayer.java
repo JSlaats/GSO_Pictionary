@@ -5,14 +5,14 @@ import java.rmi.RemoteException;
 
 public interface IPlayer extends Remote {
     /**
-     * Krijg de naam van de speler
+     * Geeft de naam van de speler
      * @return String met de naam van de speler
      * @throws RemoteException
      */
     String getName() throws RemoteException;
 
     /**
-     * Krijg de score van de speler
+     * Geeft de score van de speler
      * @return int met de score van de speler
      * @throws RemoteException
      */

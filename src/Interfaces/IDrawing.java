@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public interface IDrawing extends Remote {
     /**
-     * Krijg een lijst van alle IStrokes in een Drawing
+     * Geeft een lijst van alle IStrokes in een Drawing
      * @return Lijst van alle IStrokes in de drawing
      * @throws RemoteException
      */
@@ -21,7 +21,7 @@ public interface IDrawing extends Remote {
     void setStroke(Point position) throws RemoteException;
 
     /**
-     * Krijg de laatste IStroke in de drawing
+     * Geeft de laatste IStroke in de drawing
      * @return Laaste IStroke die aan de drawing is toegevoegd
      * @throws RemoteException
      */
