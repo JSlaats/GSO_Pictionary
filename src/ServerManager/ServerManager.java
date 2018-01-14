@@ -1,13 +1,9 @@
 package ServerManager;
 
-import GameServer.IGameServer;
-import javafx.collections.FXCollections;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.ArrayList;
 
 public class ServerManager{
     private static final int portNumber = 1098;

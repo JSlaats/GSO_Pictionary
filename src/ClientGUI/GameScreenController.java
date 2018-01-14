@@ -73,18 +73,20 @@ public class GameScreenController implements Initializable{
     }
 
     private void sendChatMessage() throws RemoteException {
-        LocalDateTime now = LocalDateTime.now();
-        room.getChat().setMessage(chatInput.getText(),now,GameClient.getLocalPlayer().getName());
-        chatBox.appendText(room.getChat().getLastMessage()+"\n\r");
-        chatInput.setText("");
+        if(!chatInput.getText().isEmpty()) {
+            LocalDateTime now = LocalDateTime.now();
+            room.getChat().setMessage(chatInput.getText(), now, GameClient.getLocalPlayer().getName());
+            chatBox.appendText(room.getChat().getLastMessage() + "\n\r");
+            chatInput.setText("");
+        }
     }
     private void guessWord(String guess) throws RemoteException {
         if(room.guessWord(guess)){
-            chatBox.appendText("You guessed the word: \""+guess+"\"! Congratz bro!!!!\n\r");
+            chatBox.appendText("You guessed the word: \""+guess+"\"! \n\r");
             this.clearScreen();
 
         }else{
-            chatBox.appendText("Your guess was: \""+guess+"\", and it was wrong. YOU SUCK!\n\r");
+            chatBox.appendText("Your guess \""+guess+"\" was not correct\n\r");
         }
     }
     public void sendChatMessageEvent(ActionEvent actionEvent) {

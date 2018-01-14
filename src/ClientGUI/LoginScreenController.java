@@ -48,6 +48,9 @@ public class LoginScreenController implements Initializable {
                 msgLabel.setTextFill(Color.RED);
                 msgLabel.setText("Connection failed");
             }
+        }else{
+            msgLabel.setTextFill(Color.RED);
+            msgLabel.setText("All fields need to be filled");
         }
     }
 
@@ -69,6 +72,9 @@ public class LoginScreenController implements Initializable {
                 msgLabel.setTextFill(Color.RED);
                 msgLabel.setText("Connection failed");
             }
+        }else{
+            msgLabel.setTextFill(Color.RED);
+            msgLabel.setText("All fields need to be filled");
         }
     }
 
