@@ -1,8 +1,6 @@
 package fontyspublisher;
 
-import java.beans.*;
-import java.rmi.*;
-import java.util.*;
+import java.beans.PropertyChangeEvent;
 
 /**
  * ILocalPropertyListener. Interface to local property listener in order to

@@ -1,6 +1,6 @@
 package fontyspublisher;
 
-import java.util.*;
+import java.util.EventListener;
 
 /**
  * IPropertyListener. Interface to local or remote property listener in order to

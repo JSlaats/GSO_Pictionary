@@ -1,5 +1,6 @@
 package ClientGUI;
 
+import ClientGUI.UI.GameScreenController;
 import Interfaces.IPlayer;
 import Interfaces.IRoom;
 

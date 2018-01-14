@@ -1,14 +1,17 @@
-package ClientGUI;
+package ClientGUI.UI;
 
-import Interfaces.*;
+import ClientGUI.ClientGUI;
+import Interfaces.IPlayer;
+import Interfaces.IRoom;
+import Interfaces.IStroke;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -43,12 +46,12 @@ public class GameScreenController implements Initializable{
             FXCollections.observableArrayList();
 
     //Room room = new Room(new Player("Jelle"));
-    IRoom room = GameClient.getInstance().getRoom();
+    IRoom room = ClientGUI.GameClient.getInstance().getRoom();
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        GameClient.getInstance().setGameScreenController(this);
+        ClientGUI.GameClient.getInstance().setGameScreenController(this);
         this.gc = drawingCanvas.getGraphicsContext2D();
         sizeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             setBrushSize();
@@ -57,9 +60,9 @@ public class GameScreenController implements Initializable{
         colorInput.setValue("Black");
         updateWordLabel();
         try {
-            GameClient.setLocalPlayer(ManagerClient.getInstance().getLocalPlayer());
-            if(!GameClient.isHost()) {
-                GameClient.getInstance().getRoom().addPlayer(GameClient.getLocalPlayer());
+            ClientGUI.GameClient.setLocalPlayer(ClientGUI.ManagerClient.getInstance().getLocalPlayer());
+            if(!ClientGUI.GameClient.isHost()) {
+                ClientGUI.GameClient.getInstance().getRoom().addPlayer(ClientGUI.GameClient.getLocalPlayer());
             }
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -74,7 +77,7 @@ public class GameScreenController implements Initializable{
 
     private void sendChatMessage() throws RemoteException {
         LocalDateTime now = LocalDateTime.now();
-        room.getChat().setMessage(chatInput.getText(),now,GameClient.getLocalPlayer().getName());
+        room.getChat().setMessage(chatInput.getText(),now, ClientGUI.GameClient.getLocalPlayer().getName());
         chatBox.appendText(room.getChat().getLastMessage()+"\n\r");
         chatInput.setText("");
     }
@@ -130,7 +133,7 @@ public class GameScreenController implements Initializable{
     }
     public void updateUserList(){
         try {
-            players.setAll(GameClient.getInstance().getRoom().getPlayers());
+            players.setAll(ClientGUI.GameClient.getInstance().getRoom().getPlayers());
             userList.setItems(players);
         } catch (RemoteException e) {
             e.printStackTrace();

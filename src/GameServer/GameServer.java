@@ -1,6 +1,7 @@
 package GameServer;
 
-import domain.*;
+import domain.Player;
+import domain.Room;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

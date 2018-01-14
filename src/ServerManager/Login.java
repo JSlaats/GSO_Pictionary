@@ -1,7 +1,7 @@
 package ServerManager;
 
-import Interfaces.IPlayer;
 import Interfaces.ILogin;
+import Interfaces.IPlayer;
 import ServerManager.data_access_layer.utilities.RepoUser;
 
 import java.io.Serializable;

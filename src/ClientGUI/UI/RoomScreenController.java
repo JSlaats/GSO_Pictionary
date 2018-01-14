@@ -1,5 +1,6 @@
-package ClientGUI;
+package ClientGUI.UI;
 
+import ClientGUI.ClientGUI;
 import GameServer.GameServer;
 import Interfaces.IRooms;
 import javafx.collections.FXCollections;
@@ -14,7 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.URL;
@@ -24,7 +25,7 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class RoomScreen implements Initializable {
+public class RoomScreenController implements Initializable {
     public TableView<IRooms> roomTable;
     public TableColumn<IRooms, String> ipCol;
     public TableColumn<IRooms, String> roomCol;
@@ -44,7 +45,7 @@ public class RoomScreen implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            data.addAll(ManagerClient.getInstance().getRoomsList().getRoomsList());
+            data.addAll(ClientGUI.ManagerClient.getInstance().getRoomsList().getRoomsList());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -67,8 +68,8 @@ public class RoomScreen implements Initializable {
 
     public void reloadTable(){
         try {
-            if(data.size() != ManagerClient.getInstance().getRoomsList().getRoomsList().size()) {
-                data.setAll(ManagerClient.getInstance().getRoomsList().getRoomsList());
+            if(data.size() != ClientGUI.ManagerClient.getInstance().getRoomsList().getRoomsList().size()) {
+                data.setAll(ClientGUI.ManagerClient.getInstance().getRoomsList().getRoomsList());
             }else{
                // System.out.println("Roomslist is same, not refreshing");
             }
@@ -82,9 +83,9 @@ public class RoomScreen implements Initializable {
         if(!roomName.isEmpty()){
             String ip = getIpAdress();
             int port = getPort();
-            String host = ManagerClient.getInstance().getLocalPlayer().getName();
+            String host = ClientGUI.ManagerClient.getInstance().getLocalPlayer().getName();
 
-            ManagerClient.getInstance().getRoomsList().add(host,roomName,ip,port);
+            ClientGUI.ManagerClient.getInstance().getRoomsList().add(host,roomName,ip,port);
             reloadTable();
             try {
                 hostRoom(ip,port,host);
@@ -97,8 +98,8 @@ public class RoomScreen implements Initializable {
         String[] params = new String[] {""+port, host};
         //start new GameServer
         GameServer.main(params);
-        GameClient.setInstance(ip,port);
-        GameClient.setIsHost(true);
+        ClientGUI.GameClient.setInstance(ip,port);
+        ClientGUI.GameClient.setIsHost(true);
         toGameScreen();
     }
     private int getPort(){
@@ -114,8 +115,8 @@ public class RoomScreen implements Initializable {
     public void JoinRoom(ActionEvent actionEvent) throws RemoteException {
         IRooms room = roomTable.getSelectionModel().getSelectedItem();
         if(room != null) {
-            GameClient.setInstance(room.getIpAdress(),room.getPort());
-            GameClient.setIsHost(false);
+            ClientGUI.GameClient.setInstance(room.getIpAdress(),room.getPort());
+            ClientGUI.GameClient.setIsHost(false);
             toGameScreen();
         }
     }

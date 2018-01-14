@@ -1,8 +1,8 @@
 package fontyspublisher;
 
-import java.beans.*;
-import java.rmi.*;
-import java.util.*;
+import java.beans.PropertyChangeEvent;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  * IRemotePropertyListener. Interface to remote property listener in order to
