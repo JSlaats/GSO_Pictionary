@@ -20,8 +20,8 @@ public class Player implements IPlayer, Serializable{
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void increaseScore(int score) {
+        this.score += score;
     }
 
     @Override

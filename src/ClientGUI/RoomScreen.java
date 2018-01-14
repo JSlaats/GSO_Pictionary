@@ -1,7 +1,7 @@
 package ClientGUI;
 
 import GameServer.GameServer;
-import ServerManager.IRooms;
+import Interfaces.IRooms;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

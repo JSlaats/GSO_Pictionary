@@ -14,7 +14,7 @@
 
 <AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientGUI.GameScreenController">
    <children>
-       <AnchorPane fx:id="menuPane" layoutX="4.0" layoutY="7.0" prefHeight="9.0" prefWidth="631.0" style="-fx-border-color: black;" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="7.0">
+       <AnchorPane fx:id="menuPane" layoutX="4.0" prefHeight="40.0" prefWidth="631.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button fx:id="clearBtn" layoutX="1.0" layoutY="1.0" mnemonicParsing="false" onAction="#clearScreen" prefHeight="32.0" prefWidth="102.0" text="Clear screen" />
             <Label layoutX="122.0" layoutY="5.0" text="Size:" />
@@ -28,16 +28,16 @@
             </Label>
             <Label layoutX="401.0" layoutY="5.0" text="Word:" />
          </children></AnchorPane>
-       <Pane fx:id="drawingPane" layoutX="4.0" layoutY="38.0" prefHeight="197.0" prefWidth="631.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="38.0">
+       <Pane fx:id="drawingPane" layoutX="4.0" layoutY="38.0" prefHeight="197.0" prefWidth="631.0" style="-fx-border-color: grey;" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="38.0">
          <children>
-            <Canvas fx:id="drawingCanvas" height="559.0" onMouseDragged="#setStroke" onMousePressed="#setStroke" width="1271.0" />
-            <Button fx:id="sendBtn" layoutX="249.0" layoutY="289.0" mnemonicParsing="false" onAction="#sendChatMessageEvent" prefHeight="31.0" prefWidth="50.0" text="Send" />
-            <TextField fx:id="guessInput" layoutX="299.0" layoutY="289.0" onKeyPressed="#guessWordKey" prefHeight="31.0" prefWidth="149.0" />
-            <Button fx:id="guessBtn" layoutX="448.0" layoutY="289.0" mnemonicParsing="false" onAction="#guessEvent" prefHeight="31.0" prefWidth="50.0" text="Guess" />
+            <Canvas fx:id="drawingCanvas" height="197.0" onMouseDragged="#setStroke" onMousePressed="#setStroke" width="631.0" />
          </children></Pane>
       <TextArea fx:id="chatBox" editable="false" focusTraversable="false" layoutX="4.0" layoutY="275.0" prefHeight="87.0" prefWidth="1076.0" wrapText="true" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="200.0" />
       <TextField fx:id="chatInput" layoutX="4.0" layoutY="374.0" onKeyPressed="#sendChatMessageEventKey" prefHeight="31.0" prefWidth="249.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="387.0" />
-      <ListView fx:id="userList" layoutX="400.0" layoutY="276.0" prefHeight="87.0" prefWidth="194.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="37.0" AnchorPane.rightAnchor="6.0" />
+      <ListView fx:id="userList" layoutX="400.0" layoutY="276.0" prefHeight="87.0" prefWidth="194.0" AnchorPane.bottomAnchor="37.0" AnchorPane.rightAnchor="6.0" />
       <Button fx:id="leaveBtn" layoutX="519.0" layoutY="374.0" mnemonicParsing="false" onAction="#leaveRoom" prefHeight="31.0" prefWidth="81.0" text="Leave Room" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="0.0" />
+      <Button fx:id="sendBtn" layoutX="253.0" layoutY="328.0" mnemonicParsing="false" onAction="#sendChatMessageEvent" prefHeight="31.0" prefWidth="50.0" text="Send" />
+      <TextField fx:id="guessInput" layoutX="303.0" layoutY="328.0" onKeyPressed="#guessWordKey" prefHeight="31.0" prefWidth="149.0" />
+      <Button fx:id="guessBtn" layoutX="452.0" layoutY="328.0" mnemonicParsing="false" onAction="#guessEvent" prefHeight="31.0" prefWidth="50.0" text="Guess" />
    </children>
 </AnchorPane>

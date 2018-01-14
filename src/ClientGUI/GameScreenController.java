@@ -69,13 +69,7 @@ public class GameScreenController implements Initializable{
     }
 
     public void leaveRoom(ActionEvent actionEvent) {
-        try {
-            System.out.println(room.getActivePlayer().getWord());
-            room.getActivePlayer().setWord("Test");
-            System.out.println(room.getActivePlayer().getWord());
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+
     }
 
     private void sendChatMessage() throws RemoteException {

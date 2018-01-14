@@ -2,15 +2,17 @@ package domain;
 
 import Interfaces.IActivePlayer;
 import Interfaces.IBrushProperties;
+import Interfaces.IPlayer;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class ActivePlayer extends UnicastRemoteObject implements IActivePlayer {
-    private Player player;
+    private IPlayer player;
     private BrushProperties brush;
     private String word;
 
-    public ActivePlayer(Player player) throws RemoteException {
+    public ActivePlayer(IPlayer player) throws RemoteException {
         super();
         this.player = player;
         this.brush = new BrushProperties();
@@ -24,11 +26,7 @@ public class ActivePlayer extends UnicastRemoteObject implements IActivePlayer {
         return word;
     }
 
-    public void setWord(String word) {
-        this.word = word;
-    }
-
-    public Player getPlayer() {
+    public IPlayer getPlayer() {
         return player;
     }
 
@@ -36,14 +34,11 @@ public class ActivePlayer extends UnicastRemoteObject implements IActivePlayer {
         return brush;
     }
 
-    public void setBrush(IBrushProperties brush) {
-        this.brush = (BrushProperties)brush;
-    }
     public void setBrushWidth(int width){
         this.brush.setWidth(width);
     }
 
-    public void setBrushColor(int r, int g, int b) {
-        this.brush.setColor(r,g,b);
+    public void setBrushColor(int red, int green, int blue) {
+        this.brush.setColor(red,green,blue);
     }
 }

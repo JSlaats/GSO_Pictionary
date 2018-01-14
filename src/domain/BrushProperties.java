@@ -7,20 +7,22 @@ import java.io.Serializable;
 
 public class BrushProperties implements Serializable, IBrushProperties {
     private int width;
-    private int r,g,b;
+    private int red;
+    private int green;
+    private int blue;
 
     public BrushProperties() {
         this.width = 10;
-        this.r = 0;
-        this.g = 0;
-        this.b = 0;
+        this.red = 0;
+        this.green = 0;
+        this.blue = 0;
     }
 
-    public BrushProperties(int width,int r, int g, int b){
+    public BrushProperties(int width,int red, int green, int blue){
         this.width = width;
-        this.r = r;
-        this.g = g;
-        this.b = b;
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
     }
     public int getWidth() {
         return width;
@@ -31,21 +33,21 @@ public class BrushProperties implements Serializable, IBrushProperties {
     }
 
     public int getR() {
-        return r;
+        return red;
     }
 
     public int getG() {
-        return g;
+        return green;
     }
 
     public int getB() {
-        return b;
+        return blue;
     }
 
-    public void setColor(int r, int g, int b){
-        this.r = r;
-        this.g = g;
-        this.b = b;
+    public void setColor(int red, int green, int blue){
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
     }
 
 }

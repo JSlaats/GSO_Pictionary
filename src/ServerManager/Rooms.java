@@ -1,5 +1,7 @@
 package ServerManager;
 
+import Interfaces.IRooms;
+
 import java.io.Serializable;
 
 public class Rooms implements IRooms,Serializable{

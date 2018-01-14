@@ -1,5 +1,8 @@
 package ServerManager;
 
+import Interfaces.IRooms;
+import Interfaces.IRoomsList;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
