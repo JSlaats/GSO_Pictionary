@@ -21,7 +21,7 @@ public interface ILogin extends Remote {
      * Een account aanmaken.
      * @param username username om mee te registreren
      * @param password password om mee te registreren
-     * @return True als het account bestaat, anders false
+     * @return True als het account aanmaken gelukt is, anders false
      * @throws SQLException
      * @throws RemoteException
      */
