@@ -90,7 +90,7 @@ public class ManagerClient {
             try {
                 this.testGetRoom();
             } catch (RemoteException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.WARNING,e.toString(),e);
             }
         }*/
 
@@ -101,7 +101,7 @@ public class ManagerClient {
             try {
                 System.out.println(rooms.getHost());
             } catch (RemoteException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.WARNING,e.toString(),e);
             }
         });
     }

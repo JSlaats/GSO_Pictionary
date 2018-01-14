@@ -23,6 +23,8 @@ import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RoomScreenController implements Initializable {
     public TableView<IRooms> roomTable;
@@ -38,7 +40,7 @@ public class RoomScreenController implements Initializable {
     public Button joinRoomBtn;
     public AnchorPane mainPane;
     Timer timer;
-
+    private final static Logger LOGGER = Logger.getLogger(RoomScreenController.class.getName());
 
 
     @Override
@@ -46,7 +48,7 @@ public class RoomScreenController implements Initializable {
         try {
             data.addAll(ManagerClient.getInstance().getRoomsList().getRoomsList());
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
 
         hostCol.setCellValueFactory(new PropertyValueFactory<>("host"));
@@ -73,7 +75,7 @@ public class RoomScreenController implements Initializable {
                // System.out.println("Roomslist is same, not refreshing");
             }
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
 
     }
@@ -89,7 +91,7 @@ public class RoomScreenController implements Initializable {
             try {
                 hostRoom(ip,port,host);
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.WARNING,e.toString(),e);
             }
         }
     }
@@ -106,7 +108,7 @@ public class RoomScreenController implements Initializable {
             socket.setReuseAddress(true);
             return socket.getLocalPort();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
         return 1099;
     }
@@ -127,7 +129,7 @@ public class RoomScreenController implements Initializable {
             InetAddress ex = InetAddress.getLocalHost();
             return ex.getHostAddress();
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
         return null;
     }
@@ -138,7 +140,7 @@ public class RoomScreenController implements Initializable {
             AnchorPane pane = FXMLLoader.load(getClass().getResource("GameScreen.fxml"));
             mainPane.getChildren().setAll(pane);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
     }
 }

@@ -1,14 +1,17 @@
 package domain;
 
-
 import Interfaces.*;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Room extends UnicastRemoteObject implements IRoom{
+    private final static Logger LOGGER = Logger.getLogger(Room.class.getName());
+
     private Chat chat;
     private Player host;
     private ActivePlayer activePlayer;
@@ -41,7 +44,7 @@ public class Room extends UnicastRemoteObject implements IRoom{
         try {
             System.out.println("added player: "+player.getName());
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
     }
 
@@ -57,7 +60,7 @@ public class Room extends UnicastRemoteObject implements IRoom{
         try {
             this.activePlayer = new ActivePlayer(activePlayer);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
     }*/
 

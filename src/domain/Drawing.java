@@ -10,9 +10,12 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Drawing extends UnicastRemoteObject implements IDrawing {
     private ArrayList<IStroke> strokes;
+    private final static Logger LOGGER = Logger.getLogger(Drawing.class.getName());
 
     public Drawing() throws RemoteException {
         this.strokes = new ArrayList<>();
@@ -37,7 +40,7 @@ public class Drawing extends UnicastRemoteObject implements IDrawing {
             BrushProperties brush = new BrushProperties(b.getWidth(),b.getR(),b.getG(),b.getB());
             this.strokes.add(new Stroke(position,brush));
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
     }
 

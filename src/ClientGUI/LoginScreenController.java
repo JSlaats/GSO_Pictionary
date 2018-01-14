@@ -14,9 +14,11 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LoginScreenController implements Initializable {
-
+    private final static Logger LOGGER = Logger.getLogger(LoginScreenController.class.getName());
     public TextField inputUsername;
     public TextField inputPassword;
     public AnchorPane mainPane;
@@ -67,7 +69,7 @@ public class LoginScreenController implements Initializable {
                 msgLabel.setTextFill(Color.RED);
                 msgLabel.setText("Register failed");
                 System.out.println("Something went wrong with registering");
-                e.printStackTrace();
+                LOGGER.log(Level.WARNING,e.toString(),e);
             } catch (RemoteException | NullPointerException ex) {
                 msgLabel.setTextFill(Color.RED);
                 msgLabel.setText("Connection failed");
@@ -83,7 +85,7 @@ public class LoginScreenController implements Initializable {
             AnchorPane pane = FXMLLoader.load(getClass().getResource("RoomScreen.fxml"));
             mainPane.getChildren().setAll(pane);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
     }
 }

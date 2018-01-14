@@ -7,8 +7,11 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GameClient {
+    private final static Logger LOGGER = Logger.getLogger(GameClient.class.getName());
     private static String ipAddress = "127.0.0.1";
     private static int portNumber = 1099;
     private static GameClient CLIENT_INSTANCE = null;
@@ -103,7 +106,7 @@ public class GameClient {
             try {
                 this.testGetRoom();
             } catch (RemoteException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.WARNING,e.toString(),e);
             }
         }
 

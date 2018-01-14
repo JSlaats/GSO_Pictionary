@@ -24,8 +24,12 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GameScreenController implements Initializable{
+    private final static Logger LOGGER = Logger.getLogger(GameScreenController.class.getName());
+
     public TextField chatInput;
     public TextArea chatBox;
     public Button sendBtn;
@@ -62,7 +66,7 @@ public class GameScreenController implements Initializable{
                 GameClient.getInstance().getRoom().addPlayer(GameClient.getLocalPlayer());
             }
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
         updateUserList();
 
@@ -93,7 +97,7 @@ public class GameScreenController implements Initializable{
         try {
             sendChatMessage();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
     }
     public void sendChatMessageEventKey(KeyEvent keyEvent) {
@@ -102,7 +106,7 @@ public class GameScreenController implements Initializable{
             try {
                 sendChatMessage();
             } catch (RemoteException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.WARNING,e.toString(),e);
             }
         }
     }
@@ -136,7 +140,7 @@ public class GameScreenController implements Initializable{
             players.setAll(GameClient.getInstance().getRoom().getPlayers());
             userList.setItems(players);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
     }
     public void updateWordLabel(){
@@ -144,7 +148,7 @@ public class GameScreenController implements Initializable{
             System.out.println("Word: "+room.getActivePlayer().getWord());
             wordLabel.setText(room.getActivePlayer().getWord());
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
     }
     public void clearScreen()  {
@@ -152,7 +156,7 @@ public class GameScreenController implements Initializable{
             room.getDrawing().clear();
             clearLocalScreen();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
     }
 
@@ -166,7 +170,7 @@ public class GameScreenController implements Initializable{
             room.getActivePlayer().setBrushWidth((int)val);
             //room.getActivePlayer().getBrush().setWidth((int)val);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
     }
 
@@ -207,7 +211,7 @@ public class GameScreenController implements Initializable{
             try {
                 this.guessWord(guessInput.getText());
             } catch (RemoteException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.WARNING,e.toString(),e);
             }
 
             guessInput.clear();
@@ -221,7 +225,7 @@ public class GameScreenController implements Initializable{
             try {
                 this.guessWord(guessInput.getText());
             } catch (RemoteException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.WARNING,e.toString(),e);
             }
             guessInput.clear();
         }
@@ -233,7 +237,7 @@ public class GameScreenController implements Initializable{
             clearLocalScreen();
             drawAll();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
     }
 
