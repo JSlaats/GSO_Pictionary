@@ -5,6 +5,7 @@ import Interfaces.IRooms;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -27,21 +28,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RoomScreenController implements Initializable {
-    public TableView<IRooms> roomTable;
-    public TableColumn<IRooms, String> ipCol;
-    public TableColumn<IRooms, String> roomCol;
-    public TableColumn<IRooms, Integer> portCol;
-    public TableColumn<IRooms, String> hostCol;
+    @FXML public TableView<IRooms> roomTable;
+    @FXML public TableColumn<IRooms, String> ipCol;
+    @FXML public TableColumn<IRooms, String> roomCol;
+    @FXML public TableColumn<IRooms, Integer> portCol;
+    @FXML public TableColumn<IRooms, String> hostCol;
 
-    private final ObservableList<IRooms> data =
-        FXCollections.observableArrayList();
-    public Button createRoomBtn;
-    public TextField inputRoomName;
-    public Button joinRoomBtn;
-    public AnchorPane mainPane;
-    Timer timer;
+
+    @FXML public Button createRoomBtn;
+    @FXML public TextField inputRoomName;
+    @FXML public Button joinRoomBtn;
+    @FXML public AnchorPane mainPane;
+    private Timer timer;
     private final static Logger LOGGER = Logger.getLogger(RoomScreenController.class.getName());
-
+    private final ObservableList<IRooms> data =
+            FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -71,9 +72,8 @@ public class RoomScreenController implements Initializable {
         try {
             if(data.size() != ManagerClient.getInstance().getRoomsList().getRoomsList().size()) {
                 data.setAll(ManagerClient.getInstance().getRoomsList().getRoomsList());
-            }else{
-               // System.out.println("Roomslist is same, not refreshing");
             }
+
         } catch (RemoteException e) {
             LOGGER.log(Level.WARNING,e.toString(),e);
         }

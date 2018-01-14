@@ -48,7 +48,7 @@ public class GameScreenController implements Initializable{
             FXCollections.observableArrayList();
 
     //Room room = new Room(new Player("Jelle"));
-    IRoom room = GameClient.getInstance().getRoom();
+    private IRoom room = GameClient.getInstance().getRoom();
 
 
     @Override

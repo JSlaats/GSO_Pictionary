@@ -2,6 +2,7 @@ package ClientGUI;
 
 import Interfaces.IPlayer;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -19,10 +20,10 @@ import java.util.logging.Logger;
 
 public class LoginScreenController implements Initializable {
     private final static Logger LOGGER = Logger.getLogger(LoginScreenController.class.getName());
-    public TextField inputUsername;
-    public TextField inputPassword;
-    public AnchorPane mainPane;
-    public Label msgLabel;
+    @FXML public TextField inputUsername;
+    @FXML public TextField inputPassword;
+    @FXML public AnchorPane mainPane;
+    @FXML public Label msgLabel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
