@@ -1,8 +1,8 @@
 package ClientGUI;
 
-import Interfaces.ILogin;
 import Interfaces.IPlayer;
 import Interfaces.IRoomsList;
+import Interfaces.ILogin;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -60,6 +60,10 @@ public class ManagerClient {
             System.out.println("Client: Registry is null pointer");
         }
 
+/*        if(this.registry != null) {
+            this.printContentsRegistry();
+        }*/
+
         if(this.registry != null) {
             try {
                 login = (ILogin) this.registry.lookup("login");
@@ -81,6 +85,46 @@ public class ManagerClient {
             System.out.println("Client: "+bindingName+" is null pointer");
         }
 
+/*        if(roomsList != null) {
+
+            try {
+                this.testGetRoom();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }*/
+
     }
 
+   /* private void testGetRoom() throws RemoteException {
+        roomsList.getRoomsList().forEach(rooms -> {
+            try {
+                System.out.println(rooms.getHost());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void printContentsRegistry() {
+        try {
+            String[] ex = this.registry.list();
+            System.out.println("Client: list of names bound in registry:");
+            if(ex.length != 0) {
+                String[] var2 = this.registry.list();
+                int var3 = var2.length;
+
+                for(int var4 = 0; var4 < var3; ++var4) {
+                    String s = var2[var4];
+                    System.out.println(s);
+                }
+            } else {
+                System.out.println("Client: list of names bound in registry is empty");
+            }
+        } catch (RemoteException var6) {
+            System.out.println("Client: Cannot show list of names bound in registry");
+            System.out.println("Client: RemoteException: " + var6.getMessage());
+        }
+
+    }*/
 }

@@ -1,8 +1,6 @@
 package domain;
 
-import Interfaces.IChat;
 import Interfaces.IRoom;
-import ServerManager.IRooms;
 import org.junit.Before;
 import org.junit.Test;
 

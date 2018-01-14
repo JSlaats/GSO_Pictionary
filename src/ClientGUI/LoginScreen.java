@@ -1,6 +1,5 @@
-package ClientGUI.UI;
+package ClientGUI;
 
-import ClientGUI.ClientGUI;
 import Interfaces.IPlayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +15,7 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class LoginScreenController implements Initializable {
+public class LoginScreen implements Initializable {
 
     public TextField inputUsername;
     public TextField inputPassword;
@@ -33,9 +32,9 @@ public class LoginScreenController implements Initializable {
         if(!inputUsername.getText().isEmpty() && !inputPassword.getText().isEmpty()){
             System.out.println("You may log in");
             try {
-                IPlayer player = ClientGUI.ManagerClient.getInstance().getLogin().login(inputUsername.getText(),inputPassword.getText());
+                IPlayer player = ManagerClient.getInstance().getLogin().login(inputUsername.getText(),inputPassword.getText());
                 if(player != null){
-                    ClientGUI.ManagerClient.getInstance().setLocalPlayer(player);
+                    ManagerClient.getInstance().setLocalPlayer(player);
                     msgLabel.setTextFill(Color.GREEN);
                     msgLabel.setText("Login was successfull");
                     System.out.println("Login was successfull");
@@ -55,7 +54,7 @@ public class LoginScreenController implements Initializable {
     public void Register(ActionEvent actionEvent) {
         if(!inputUsername.getText().isEmpty() && !inputPassword.getText().isEmpty()) {
             try {
-                boolean success = ClientGUI.ManagerClient.getInstance().getLogin().register(inputUsername.getText(),inputPassword.getText());
+                boolean success = ManagerClient.getInstance().getLogin().register(inputUsername.getText(),inputPassword.getText());
                 if(success){
                     msgLabel.setTextFill(Color.GREEN);
                     msgLabel.setText("You are registered, you may now log in");
@@ -75,7 +74,7 @@ public class LoginScreenController implements Initializable {
 
     private void toRoomScreen(){
         try{
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("ClientGUI/UI/RoomScreen.fxml"));
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("RoomScreen.fxml"));
             mainPane.getChildren().setAll(pane);
         } catch (IOException e) {
             e.printStackTrace();

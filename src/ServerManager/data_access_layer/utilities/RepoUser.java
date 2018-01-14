@@ -3,7 +3,6 @@ package ServerManager.data_access_layer.utilities;
 
 import Interfaces.ILogin;
 import Interfaces.IPlayer;
-
 import java.sql.SQLException;
 
 public class RepoUser implements ILogin {
