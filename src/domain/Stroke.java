@@ -5,6 +5,7 @@ import Interfaces.IStroke;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Stroke implements Serializable, IStroke{
     private Point position;
@@ -22,4 +23,14 @@ public class Stroke implements Serializable, IStroke{
     public IBrushProperties getBrush() {
         return brush;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Stroke stroke = (Stroke) o;
+        return Objects.equals(position, stroke.position) &&
+                Objects.equals(brush, stroke.brush);
+    }
+
 }

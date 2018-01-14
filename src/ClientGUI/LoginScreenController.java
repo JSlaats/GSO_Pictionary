@@ -15,7 +15,7 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class LoginScreen implements Initializable {
+public class LoginScreenController implements Initializable {
 
     public TextField inputUsername;
     public TextField inputPassword;

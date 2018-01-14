@@ -4,6 +4,7 @@ package domain;
 import Interfaces.IBrushProperties;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class BrushProperties implements Serializable, IBrushProperties {
     private int width;
@@ -29,7 +30,7 @@ public class BrushProperties implements Serializable, IBrushProperties {
     }
 
     public void setWidth(int width) {
-        this.width = width;
+        if(!(width <  1) && !(width > 25))this.width = width;
     }
 
     public int getR() {
@@ -45,9 +46,21 @@ public class BrushProperties implements Serializable, IBrushProperties {
     }
 
     public void setColor(int red, int green, int blue){
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
+        if(red >= 0 && red <= 255 && green >= 0 && green <= 255 && blue >= 0 && blue <= 255) {
+            this.red = red;
+            this.green = green;
+            this.blue = blue;
+        }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BrushProperties that = (BrushProperties) o;
+        return width == that.width &&
+                red == that.red &&
+                green == that.green &&
+                blue == that.blue;
+    }
 }

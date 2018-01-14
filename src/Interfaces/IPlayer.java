@@ -20,7 +20,7 @@ public interface IPlayer extends Remote {
 
     /**
      * Verhoog de score van de speler
-     * @param score int waarmee de score verhoogd moet worden
+     * @param score int > 0, waarmee de score verhoogd moet worden
      * @throws RemoteException
      */
     void increaseScore(int score) throws RemoteException;

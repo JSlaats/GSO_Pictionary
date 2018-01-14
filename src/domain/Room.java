@@ -53,13 +53,13 @@ public class Room extends UnicastRemoteObject implements IRoom{
         return activePlayer;
     }
 
-    private void setActivePlayer(Player activePlayer) {
+/*    public void setActivePlayer(Player activePlayer) {
         try {
             this.activePlayer = new ActivePlayer(activePlayer);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     public boolean guessWord(String guess) throws RemoteException {
         guess = guess.toLowerCase();

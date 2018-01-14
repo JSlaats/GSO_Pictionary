@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class RoomScreen implements Initializable {
+public class RoomScreenController implements Initializable {
     public TableView<IRooms> roomTable;
     public TableColumn<IRooms, String> ipCol;
     public TableColumn<IRooms, String> roomCol;

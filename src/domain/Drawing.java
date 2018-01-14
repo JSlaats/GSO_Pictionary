@@ -9,6 +9,7 @@ import java.awt.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Drawing extends UnicastRemoteObject implements IDrawing {
     private ArrayList<IStroke> strokes;
@@ -43,4 +44,5 @@ public class Drawing extends UnicastRemoteObject implements IDrawing {
     public void clear(){
         this.strokes.clear();
     }
+
 }
