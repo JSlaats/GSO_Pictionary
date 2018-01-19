@@ -1,0 +1,7 @@
+boot
+fiets
+hoed
+mond
+lach
+auto
+pizza
