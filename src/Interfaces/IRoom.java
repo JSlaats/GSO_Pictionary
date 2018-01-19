@@ -1,5 +1,7 @@
 package Interfaces;
 
+import ClientGUI.RemoteView;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -39,6 +41,13 @@ public interface IRoom extends Remote {
      * @throws RemoteException
      */
     void addPlayer(IPlayer player) throws RemoteException;
+
+    /**
+     * Verwijder een speler van de server
+     * @param player IPlayer met de data van de speler
+     * @throws RemoteException
+     */
+    void removePlayer(IPlayer player) throws RemoteException;
 
     /**
      * Raad het woord wat uitgebeeld is

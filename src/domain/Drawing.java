@@ -25,6 +25,7 @@ public class Drawing extends UnicastRemoteObject implements IDrawing, IRemotePub
         this.strokes = new ArrayList<>();
         try {
             publisher = new RemotePublisher();
+
         } catch (RemoteException e) {
             System.out.println("Publisher failed to instantiate.");
             System.out.println("Remote exception: " + e.getMessage());
@@ -32,6 +33,7 @@ public class Drawing extends UnicastRemoteObject implements IDrawing, IRemotePub
         }
         publisher.registerProperty("stroke");
         publisher.registerProperty("clear");
+
     }
 
     public ArrayList<IStroke> getStrokes() {

@@ -1,5 +1,6 @@
 package ClientGUI;
 
+import Interfaces.IPlayer;
 import Interfaces.IRooms;
 import Interfaces.IStroke;
 import fontyspublisher.IRemotePropertyListener;
@@ -51,11 +52,16 @@ public class RemoteView extends UnicastRemoteObject implements IRemotePropertyLi
                 ((RoomScreenController)controller).reloadTable((ArrayList<IRooms>)evt.getNewValue());
                 break;
             case "stroke":
-                System.out.println("Drawing new stroke");
                 ((GameScreenController)controller).drawStroke((IStroke)evt.getNewValue());
                 break;
             case "clear":
                 ((GameScreenController)controller).clearLocalScreen();
+                break;
+            case "chat":
+                ((GameScreenController)controller).addChatMessage((String)evt.getNewValue());
+                break;
+            case "player":
+                ((GameScreenController)controller).updateUserList((ArrayList<IPlayer>)evt.getNewValue());
                 break;
         }
     }

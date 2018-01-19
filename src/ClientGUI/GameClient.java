@@ -4,7 +4,6 @@ import Interfaces.IPlayer;
 import Interfaces.IRoom;
 
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -17,7 +16,6 @@ public class GameClient {
     private static IPlayer localPlayer;
     private Registry registry;
     private IRoom room;
-    //private Remote room;
 
     private static boolean isHost = false;
 
