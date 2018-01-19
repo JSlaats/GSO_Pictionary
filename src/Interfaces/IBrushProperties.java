@@ -47,5 +47,4 @@ public interface IBrushProperties extends Remote {
      * @throws RemoteException
      */
     void setColor(int red, int green, int blue)throws RemoteException;
-
 }

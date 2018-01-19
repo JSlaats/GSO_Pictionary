@@ -61,7 +61,7 @@ public class GameServer {
 
     }
 
-    public static void main(String[] args) throws java.net.UnknownHostException {
+    public static void main(String[] args) {
         System.out.println("STARTING GAMESERVER");
 
         for(String str : args){

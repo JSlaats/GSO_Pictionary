@@ -4,7 +4,6 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface IRooms extends Remote {
-
      /**
       * Geeft het IP adress van de room
       * @return String van het IP adress waarin de room wordt gehost
