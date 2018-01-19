@@ -27,7 +27,6 @@
                </font>
             </Label>
             <Label layoutX="401.0" layoutY="5.0" text="Word:" />
-            <Button layoutY="5.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
          </children></AnchorPane>
        <Pane fx:id="drawingPane" layoutX="4.0" layoutY="38.0" prefHeight="197.0" prefWidth="631.0" style="-fx-border-color: grey;" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="38.0">
          <children>

@@ -67,6 +67,11 @@ public class GameScreenController implements Initializable{
             rvDrawing = new RemoteView(this, GameClient.getInstance().getRoom().getDrawing(),propertiesDrawing);
             rvChat = new RemoteView(this, GameClient.getInstance().getRoom().getChat(),propertiesChat);
             rvRoom = new RemoteView(this, GameClient.getInstance().getRoom(),propertiesRoom);
+
+            GameClient.setLocalPlayer(ManagerClient.getInstance().getLocalPlayer());
+            if(!GameClient.isHost()) GameClient.getInstance().getRoom().addPlayer(GameClient.getLocalPlayer());
+            this.playerList.setAll(room.getPlayers());
+
         } catch (RemoteException e) {
             LOGGER.log(Level.WARNING,e.toString(),e);
         }
@@ -78,17 +83,10 @@ public class GameScreenController implements Initializable{
         colorInput.getItems().addAll("Black","Red","Green","Blue","Yellow");
         colorInput.setValue("Black");
         updateWordLabel();
-        try {
-            GameClient.setLocalPlayer(ManagerClient.getInstance().getLocalPlayer());
-            if(!GameClient.isHost()) {
-                GameClient.getInstance().getRoom().addPlayer(GameClient.getLocalPlayer());
-            }
-        } catch (RemoteException e) {
-            LOGGER.log(Level.WARNING,e.toString(),e);
-        }
+        Runtime.getRuntime().addShutdownHook(new Thread(this::leaveRoom));
+        drawAll();
         userList.setItems(this.playerList);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(this::leaveRoom));
     }
 
     public void leaveRoom() {
@@ -98,12 +96,13 @@ public class GameScreenController implements Initializable{
                 rvRoom.close();
                 rvDrawing.close();
                 rvChat.close();
-                System.exit(1);
+                System.exit(0);
             } catch (RemoteException e) {
                 LOGGER.log(Level.WARNING,e.toString(),e);
             }
         });
     }
+
 
     public void sendChatMessageEventKey(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER))
@@ -140,7 +139,6 @@ public class GameScreenController implements Initializable{
         if(room.guessWord(guess)){
             chatBox.appendText("You guessed the word: \""+guess+"\"! \n\r");
             this.clearScreen();
-
         }else{
             chatBox.appendText("Your guess \""+guess+"\" was not correct\n\r");
         }
@@ -165,9 +163,13 @@ public class GameScreenController implements Initializable{
         }
     }
 
-    public void drawAll() throws RemoteException {
-        for (IStroke s:room.getDrawing().getStrokes()) {
-            this.drawStroke(s);
+    public void drawAll()  {
+        try {
+            for (IStroke s:room.getDrawing().getStrokes()) {
+                this.drawStroke(s);
+            }
+        } catch (RemoteException e) {
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
     }
     public void updateUserList(ArrayList<IPlayer> players){
@@ -187,7 +189,6 @@ public class GameScreenController implements Initializable{
     public void clearScreen()  {
         try {
             room.getDrawing().clear();
-            clearLocalScreen();
         } catch (RemoteException e) {
             LOGGER.log(Level.WARNING,e.toString(),e);
         }
@@ -199,7 +200,6 @@ public class GameScreenController implements Initializable{
 
     public void setBrushSize()  {
         double val = sizeSlider.getValue();
-        System.out.println(val);
         try {
             room.getActivePlayer().setBrushWidth((int)val);
         } catch (RemoteException e) {
@@ -258,14 +258,5 @@ public class GameScreenController implements Initializable{
         }
     }
 
-
-    public void refresh(ActionEvent actionEvent) {
-        try {
-            clearLocalScreen();
-            drawAll();
-        } catch (RemoteException e) {
-            LOGGER.log(Level.WARNING,e.toString(),e);
-        }
-    }
 
 }
