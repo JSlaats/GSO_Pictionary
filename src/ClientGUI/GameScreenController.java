@@ -24,6 +24,7 @@ import java.awt.*;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,13 +48,21 @@ public class GameScreenController implements Initializable{
     private final ObservableList<IPlayer> players =
             FXCollections.observableArrayList();
 
-    //Room room = new Room(new Player("Jelle"));
     private IRoom room = GameClient.getInstance().getRoom();
-
+    private RemoteView rv;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        GameClient.getInstance().setGameScreenController(this);
+        try {
+            ArrayList<String> properties = new ArrayList<>();
+            properties.add("stroke");
+            properties.add("clear");
+            rv = new RemoteView(this, GameClient.getInstance().getRoom().getDrawing(),properties);
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
         this.gc = drawingCanvas.getGraphicsContext2D();
         sizeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             setBrushSize();
@@ -74,7 +83,8 @@ public class GameScreenController implements Initializable{
     }
 
     public void leaveRoom(ActionEvent actionEvent) {
-
+        rv.close();
+        System.exit(1);
     }
 
     private void sendChatMessage() throws RemoteException {
@@ -115,7 +125,7 @@ public class GameScreenController implements Initializable{
         //send stroke to server
         room.getDrawing().setStroke(new Point((int)mouseEvent.getX(),(int)mouseEvent.getY()));
         //draw stroke from server
-        drawStroke(room.getDrawing().getLastStroke());
+    //    drawStroke(room.getDrawing().getLastStroke());
     }
     public void drawStroke(IStroke stroke) throws RemoteException{
         if(stroke != null) {

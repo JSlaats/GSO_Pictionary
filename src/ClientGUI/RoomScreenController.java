@@ -2,6 +2,7 @@ package ClientGUI;
 
 import GameServer.GameServer;
 import Interfaces.IRooms;
+import Interfaces.IRoomsList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +22,7 @@ import java.net.ServerSocket;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,13 +41,20 @@ public class RoomScreenController implements Initializable {
     @FXML public TextField inputRoomName;
     @FXML public Button joinRoomBtn;
     @FXML public AnchorPane mainPane;
-    private Timer timer;
     private final static Logger LOGGER = Logger.getLogger(RoomScreenController.class.getName());
     private final ObservableList<IRooms> data =
             FXCollections.observableArrayList();
+    private RemoteView rv;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            ArrayList<String> properties = new ArrayList<>();
+            properties.add("list");
+             rv = new RemoteView(this, ManagerClient.getInstance().getRoomsList(),properties);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         try {
             data.addAll(ManagerClient.getInstance().getRoomsList().getRoomsList());
         } catch (RemoteException e) {
@@ -58,44 +67,23 @@ public class RoomScreenController implements Initializable {
         portCol.setCellValueFactory(new PropertyValueFactory<>("port"));
 
         roomTable.setItems(data);
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                reloadTable();
-            }
-        }, 1000, 1000);
-
     }
 
-    public void reloadTable(){
-        try {
-            if(data.size() != ManagerClient.getInstance().getRoomsList().getRoomsList().size()) {
-                data.setAll(ManagerClient.getInstance().getRoomsList().getRoomsList());
-            }
-
-        } catch (RemoteException e) {
-            LOGGER.log(Level.WARNING,e.toString(),e);
-        }
-
+    public void reloadTable(ArrayList<IRooms> list){
+        data.setAll(list);
     }
+
     public void CreateRoom(ActionEvent actionEvent) throws RemoteException {
         String roomName = inputRoomName.getText();
         if(!roomName.isEmpty()){
             String ip = getIpAdress();
             int port = getPort();
             String host = ManagerClient.getInstance().getLocalPlayer().getName();
-
             ManagerClient.getInstance().getRoomsList().add(host,roomName,ip,port);
-            reloadTable();
-            try {
-                hostRoom(ip,port,host);
-            } catch (IOException e) {
-                LOGGER.log(Level.WARNING,e.toString(),e);
-            }
+            hostRoom(ip,port,host);
         }
     }
-    private void hostRoom(String ip, int port, String host) throws IOException {
+    private void hostRoom(String ip, int port, String host)  {
         String[] params = new String[] {""+port, host};
         //start new GameServer
         GameServer.main(params);
@@ -122,8 +110,6 @@ public class RoomScreenController implements Initializable {
         }
     }
 
-
-
     private static String getIpAdress() {
         try{
             InetAddress ex = InetAddress.getLocalHost();
@@ -136,7 +122,7 @@ public class RoomScreenController implements Initializable {
 
     private void toGameScreen(){
         try{
-            timer.cancel();
+            rv.close();
             AnchorPane pane = FXMLLoader.load(getClass().getResource("GameScreen.fxml"));
             mainPane.getChildren().setAll(pane);
         } catch (IOException e) {

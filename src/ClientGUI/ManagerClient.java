@@ -5,6 +5,7 @@ import Interfaces.IRoomsList;
 import Interfaces.ILogin;
 
 import java.rmi.NotBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -12,7 +13,7 @@ import java.rmi.registry.Registry;
 public class ManagerClient {
     private static String ipAddress = "127.0.0.1";
     private static int portNumber = 1098;
-    private static final String bindingName = "roomlist";
+    private static final String bindingName = "roomslist";
 
     private static ManagerClient CLIENT_INSTANCE = new ManagerClient(ipAddress,portNumber);
     private Registry registry;
@@ -41,6 +42,8 @@ public class ManagerClient {
         return CLIENT_INSTANCE;
     }
 
+
+
     private ManagerClient(String ipAddress, int portNumber) {
         System.out.println("Client: IP Address: " + ipAddress);
         System.out.println("Client: Port number " + portNumber);
@@ -60,14 +63,10 @@ public class ManagerClient {
             System.out.println("Client: Registry is null pointer");
         }
 
-/*        if(this.registry != null) {
-            this.printContentsRegistry();
-        }*/
-
         if(this.registry != null) {
             try {
                 login = (ILogin) this.registry.lookup("login");
-                roomsList = (IRoomsList) this.registry.lookup(bindingName);
+                roomsList = (IRoomsList)this.registry.lookup("roomslist");
             } catch (RemoteException var4) {
                 System.out.println("Client: Cannot bind "+bindingName);
                 System.out.println("Client: RemoteException: " + var4.getMessage());
@@ -78,53 +77,29 @@ public class ManagerClient {
                 roomsList = null;
             }
         }
-
         if(roomsList != null) {
             System.out.println("Client: "+bindingName+" bound");
         } else {
             System.out.println("Client: "+bindingName+" is null pointer");
         }
-
-/*        if(roomsList != null) {
-
-            try {
-                this.testGetRoom();
-            } catch (RemoteException e) {
-                LOGGER.log(Level.WARNING,e.toString(),e);
-            }
-        }*/
-
+        printContentsRegistry();
     }
-
-   /* private void testGetRoom() throws RemoteException {
-        roomsList.getRoomsList().forEach(rooms -> {
-            try {
-                System.out.println(rooms.getHost());
-            } catch (RemoteException e) {
-                LOGGER.log(Level.WARNING,e.toString(),e);
-            }
-        });
-    }
-
     private void printContentsRegistry() {
         try {
-            String[] ex = this.registry.list();
-            System.out.println("Client: list of names bound in registry:");
-            if(ex.length != 0) {
-                String[] var2 = this.registry.list();
-                int var3 = var2.length;
-
-                for(int var4 = 0; var4 < var3; ++var4) {
-                    String s = var2[var4];
-                    System.out.println(s);
+            String[] names = registry.list();
+            System.out.println("list of names bound in registry:");
+            if (names.length != 0) {
+                for (int i = 0; i < names.length; ++i) {
+                    System.out.println(names[i]);
                 }
             } else {
-                System.out.println("Client: list of names bound in registry is empty");
+                System.out.println("list of names bound in registry is empty.");
             }
-        } catch (RemoteException var6) {
-            System.out.println("Client: Cannot show list of names bound in registry");
-            System.out.println("Client: RemoteException: " + var6.getMessage());
+        } catch (RemoteException e) {
+            System.out.println("Cannot show list of names bound in registry.");
+            System.out.println("RemoteException: " + e.getMessage());
         }
 
-    }*/
+    }
+
 }

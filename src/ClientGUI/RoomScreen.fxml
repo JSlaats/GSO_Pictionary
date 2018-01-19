@@ -25,6 +25,6 @@
       <TextField fx:id="inputRoomName" layoutX="244.0" layoutY="269.0" />
       <Button fx:id="joinRoomBtn" layoutX="513.0" layoutY="269.0" mnemonicParsing="false" onAction="#JoinRoom" prefHeight="65.0" prefWidth="73.0" text="Join Room" />
       <Label layoutX="169.0" layoutY="273.0" text="Room name:" />
-      <Button layoutX="14.0" layoutY="269.0" mnemonicParsing="false" onAction="#reloadTable" text="Refresh" />
+     <!-- <Button layoutX="14.0" layoutY="269.0" mnemonicParsing="false" onAction="#reloadTable" text="Refresh" />-->
    </children>
 </AnchorPane>

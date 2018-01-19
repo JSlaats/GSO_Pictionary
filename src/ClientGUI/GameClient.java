@@ -4,6 +4,7 @@ import Interfaces.IPlayer;
 import Interfaces.IRoom;
 
 import java.rmi.NotBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -12,14 +13,14 @@ import java.util.logging.Logger;
 
 public class GameClient {
     private final static Logger LOGGER = Logger.getLogger(GameClient.class.getName());
-    private static String ipAddress = "127.0.0.1";
-    private static int portNumber = 1099;
     private static GameClient CLIENT_INSTANCE = null;
     private static IPlayer localPlayer;
     private Registry registry;
     private IRoom room;
-    private GameScreenController controller;
+    //private Remote room;
+
     private static boolean isHost = false;
+
 
     public static IPlayer getLocalPlayer() {
         return localPlayer;
@@ -41,19 +42,13 @@ public class GameClient {
         return room;
     }
 
+
     public static void setInstance(String ipAddress,int portNumber){
         CLIENT_INSTANCE = new GameClient(ipAddress,portNumber);
     }
 
     public static GameClient getInstance(){
-        if(CLIENT_INSTANCE == null){
-            CLIENT_INSTANCE = new GameClient(ipAddress,portNumber);
-        }
         return CLIENT_INSTANCE;
-    }
-
-    public void setGameScreenController(GameScreenController controller){
-        this.controller = controller;
     }
     
     private GameClient(String ipAddress, int portNumber) {
@@ -61,7 +56,6 @@ public class GameClient {
         System.out.println("Client: Port number " + portNumber);
 
         try {
-
             this.registry = LocateRegistry.getRegistry(ipAddress, portNumber);
         } catch (RemoteException var6) {
             System.out.println("Client: Cannot locate registry");
@@ -114,10 +108,7 @@ public class GameClient {
 
     private void testGetRoom() throws RemoteException {
         System.out.println("Client: Host is " + room.getHost().getName()+" score:"+room.getHost().getScore());
-        /*System.out.println(room.getDrawing());
-        for (IPlayer p:room.getPlayers()) {
-            System.out.println(p.getName());
-        }*/
+
     }
 
     private void printContentsRegistry() {

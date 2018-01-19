@@ -24,4 +24,11 @@ public interface IRooms extends Remote {
       * @throws RemoteException
       */
      String getName()throws RemoteException;
+
+     /**
+      * Geeft de naam van de host
+      * @return String van de room host
+      * @throws RemoteException
+      */
+     String getHost()throws RemoteException;
 }

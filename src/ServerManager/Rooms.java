@@ -17,7 +17,7 @@ public class Rooms implements IRooms,Serializable{
         this.ipAdress = ipAdress;
         this.port = port;
     }
-
+    public String getHost(){ return host;};
     public String getName() {
         return name;
     }
