@@ -49,7 +49,8 @@ public class GameScreenController implements Initializable{
     @FXML public Button guessBtn;
     @FXML public Label sizeLbl;
     @FXML public Label colorLbl;
-    public AnchorPane menuPane;
+    @FXML public AnchorPane menuPane;
+    @FXML public Label lblTime;
     @FXML private GraphicsContext gc;
 
     private final ObservableList<IPlayer> playerList =
@@ -70,6 +71,9 @@ public class GameScreenController implements Initializable{
             propertiesChat.add("chat");
             ArrayList<String> propertiesRoom = new ArrayList<>();
             propertiesRoom.add("player");
+            propertiesRoom.add("timer");
+            propertiesRoom.add("newRound");
+
             rvDrawing = new RemoteView(this, GameClient.getInstance().getRoom().getDrawing(),propertiesDrawing);
             rvChat = new RemoteView(this, GameClient.getInstance().getRoom().getChat(),propertiesChat);
             rvRoom = new RemoteView(this, GameClient.getInstance().getRoom(),propertiesRoom);
@@ -83,9 +87,7 @@ public class GameScreenController implements Initializable{
         }
 
         this.gc = drawingCanvas.getGraphicsContext2D();
-        sizeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            setBrushSize();
-        });
+        sizeSlider.valueProperty().addListener((observable, oldValue, newValue) -> setBrushSize());
         colorInput.getItems().addAll("Black","Red","Green","Blue","Yellow");
         colorInput.setValue("Black");
         updateWordLabel();
@@ -99,13 +101,8 @@ public class GameScreenController implements Initializable{
         try {
             System.out.println(room.getActivePlayer().getPlayer());
             if(GameClient.getLocalPlayer().equals(room.getActivePlayer().getPlayer())){
-                menuPane.setVisible(true);
                 //player is activeplayer, activate drawing field
-/*                sizeSlider.setVisible(true);
-                colorInput.setVisible(true);
-                clearBtn.setVisible(true);
-                sizeLbl.setVisible(true);
-                colorLbl.setVisible(true);*/
+                menuPane.setVisible(true);
 
                 drawingCanvas.setDisable(false);
                 chatInput.setDisable(true);
@@ -115,12 +112,6 @@ public class GameScreenController implements Initializable{
             }else{
                 //player is not activeplayer, disable drawing field
                 menuPane.setVisible(false);
-/*
-                sizeSlider.setVisible(false);
-                colorInput.setVisible(false);
-                clearBtn.setVisible(false);
-                sizeLbl.setVisible(false);
-                colorLbl.setVisible(false);*/
 
                 drawingCanvas.setDisable(true);
                 chatInput.setDisable(false);
@@ -181,12 +172,6 @@ public class GameScreenController implements Initializable{
 
     private void guessWord(String guess) throws RemoteException {
         room.guessWord(guess,GameClient.getLocalPlayer());
-        /*if(room.guessWord(guess,GameClient.getLocalPlayer())){
-            chatBox.appendText("You guessed the word: \""+guess+"\"! \n\r");
-            this.clearScreen();
-        }else{
-            chatBox.appendText("Your guess \""+guess+"\" was not correct\n\r");
-        }*/
         guessInput.clear();
     }
 
@@ -225,12 +210,14 @@ public class GameScreenController implements Initializable{
     }
 
     public void updateWordLabel(){
-        try {
-            System.out.println("Word: "+room.getActivePlayer().getWord());
-            wordLabel.setText(room.getActivePlayer().getWord());
-        } catch (RemoteException e) {
-            LOGGER.log(Level.WARNING,e.toString(),e);
-        }
+        Platform.runLater(()->{
+            try {
+                System.out.println("Word: "+room.getActivePlayer().getWord());
+                wordLabel.setText(room.getActivePlayer().getWord());
+            } catch (RemoteException e) {
+                LOGGER.log(Level.WARNING,e.toString(),e);
+            }
+        });
     }
     public void clearScreen()  {
         try {
@@ -302,5 +289,8 @@ public class GameScreenController implements Initializable{
     }
 
 
+    public void updateTimer(int newValue) {
+        Platform.runLater(()->{lblTime.setText(newValue+"");});
 
+    }
 }

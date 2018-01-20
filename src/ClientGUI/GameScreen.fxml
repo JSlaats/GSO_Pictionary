@@ -31,6 +31,11 @@
        <Pane fx:id="drawingPane" layoutX="4.0" layoutY="38.0" prefHeight="197.0" prefWidth="631.0" style="-fx-border-color: grey;" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="38.0">
          <children>
             <Canvas fx:id="drawingCanvas" height="197.0" onMouseDragged="#setStroke" onMousePressed="#setStroke" width="631.0" />
+            <Label fx:id="lblTime" layoutX="5.0" layoutY="2.0" text="60">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
          </children></Pane>
       <TextArea fx:id="chatBox" editable="false" focusTraversable="false" layoutX="4.0" layoutY="275.0" prefHeight="87.0" prefWidth="1076.0" wrapText="true" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="200.0" />
       <TextField fx:id="chatInput" layoutX="4.0" layoutY="374.0" onKeyPressed="#sendChatMessageEventKey" prefHeight="31.0" prefWidth="249.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="387.0" />

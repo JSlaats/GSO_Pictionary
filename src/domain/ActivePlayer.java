@@ -12,14 +12,11 @@ public class ActivePlayer extends UnicastRemoteObject implements IActivePlayer {
     private BrushProperties brush;
     private String word;
 
-    public ActivePlayer(IPlayer player) throws RemoteException {
+    public ActivePlayer(IPlayer player,String word) throws RemoteException {
         super();
         this.player = player;
         this.brush = new BrushProperties();
-        this.word = this.generateWord();
-    }
-    private String generateWord(){
-        return "Gnome Childd";
+        this.word = word;
     }
 
     public String getWord() {

@@ -52,10 +52,11 @@ public interface IRoom extends Remote {
     /**
      * Raad het woord wat uitgebeeld is
      * @param guess String met het gegokte woord
+     * @param player IPlayer die het woord gokt
      * @return True als het woord geraden is, anders false
      * @throws RemoteException
      */
-    boolean guessWord(String guess) throws RemoteException;
+    boolean guessWord(String guess, IPlayer player) throws RemoteException;
 
     /**
      * Geeft referentie van (remote) instantie ActivePlayer

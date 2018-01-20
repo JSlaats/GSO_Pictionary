@@ -62,7 +62,13 @@ public class RemoteView extends UnicastRemoteObject implements IRemotePropertyLi
                 break;
             case "player":
                 ((GameScreenController)controller).updateUserList((ArrayList<IPlayer>)evt.getNewValue());
+                break;
+            case "newRound":
+                ((GameScreenController)controller).updateUserList((ArrayList<IPlayer>)evt.getNewValue());
                 ((GameScreenController)controller).setGameScreenState();
+                ((GameScreenController)controller).updateWordLabel();
+            case "timer":
+                ((GameScreenController)controller).updateTimer((int)evt.getNewValue());
                 break;
         }
     }

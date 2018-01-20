@@ -24,4 +24,6 @@ public interface IPlayer extends Remote {
      * @throws RemoteException
      */
     void increaseScore(int score) throws RemoteException;
+
+
 }
