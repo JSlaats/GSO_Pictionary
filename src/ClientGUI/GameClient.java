@@ -105,8 +105,7 @@ public class GameClient {
     }
 
     private void testGetRoom() throws RemoteException {
-        System.out.println("Client: Host is " + room.getHost().getName()+" score:"+room.getHost().getScore());
-
+        System.out.println("Client: Host is '" + room.getHost().getName()+"' score:"+room.getHost().getScore());
     }
 
     private void printContentsRegistry() {

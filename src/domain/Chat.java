@@ -46,6 +46,7 @@ public class Chat extends UnicastRemoteObject implements IChat, IRemotePublisher
             LOGGER.log(Level.WARNING,e.toString(),e);
         }
     }
+
     public String getLastMessage(){
         if(this.messages.size()>0) {
             return this.messages.get(this.messages.size() - 1).toString();

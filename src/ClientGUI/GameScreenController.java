@@ -1,5 +1,6 @@
 package ClientGUI;
 
+import GameServer.GameServer;
 import Interfaces.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -44,6 +45,11 @@ public class GameScreenController implements Initializable{
     @FXML public TextField guessInput;
     @FXML public AnchorPane mainPane;
     @FXML public ListView userList;
+    @FXML public Button clearBtn;
+    @FXML public Button guessBtn;
+    @FXML public Label sizeLbl;
+    @FXML public Label colorLbl;
+    public AnchorPane menuPane;
     @FXML private GraphicsContext gc;
 
     private final ObservableList<IPlayer> playerList =
@@ -86,7 +92,45 @@ public class GameScreenController implements Initializable{
         Runtime.getRuntime().addShutdownHook(new Thread(this::leaveRoom));
         drawAll();
         userList.setItems(this.playerList);
+        setGameScreenState();
+    }
 
+    public void setGameScreenState() {
+        try {
+            System.out.println(room.getActivePlayer().getPlayer());
+            if(GameClient.getLocalPlayer().equals(room.getActivePlayer().getPlayer())){
+                menuPane.setVisible(true);
+                //player is activeplayer, activate drawing field
+/*                sizeSlider.setVisible(true);
+                colorInput.setVisible(true);
+                clearBtn.setVisible(true);
+                sizeLbl.setVisible(true);
+                colorLbl.setVisible(true);*/
+
+                drawingCanvas.setDisable(false);
+                chatInput.setDisable(true);
+                guessInput.setDisable(true);
+                sendBtn.setDisable(true);
+                guessBtn.setDisable(true);
+            }else{
+                //player is not activeplayer, disable drawing field
+                menuPane.setVisible(false);
+/*
+                sizeSlider.setVisible(false);
+                colorInput.setVisible(false);
+                clearBtn.setVisible(false);
+                sizeLbl.setVisible(false);
+                colorLbl.setVisible(false);*/
+
+                drawingCanvas.setDisable(true);
+                chatInput.setDisable(false);
+                guessInput.setDisable(false);
+                sendBtn.setDisable(false);
+                guessBtn.setDisable(false);
+            }
+        } catch (RemoteException e) {
+            LOGGER.log(Level.WARNING,e.toString(),e);
+        }
     }
 
     public void leaveRoom() {
@@ -136,12 +180,14 @@ public class GameScreenController implements Initializable{
     }
 
     private void guessWord(String guess) throws RemoteException {
-        if(room.guessWord(guess)){
+        room.guessWord(guess,GameClient.getLocalPlayer());
+        /*if(room.guessWord(guess,GameClient.getLocalPlayer())){
             chatBox.appendText("You guessed the word: \""+guess+"\"! \n\r");
             this.clearScreen();
         }else{
             chatBox.appendText("Your guess \""+guess+"\" was not correct\n\r");
-        }
+        }*/
+        guessInput.clear();
     }
 
 
@@ -240,8 +286,6 @@ public class GameScreenController implements Initializable{
             } catch (RemoteException e) {
                 LOGGER.log(Level.WARNING,e.toString(),e);
             }
-
-            guessInput.clear();
         }
     }
 
@@ -254,9 +298,9 @@ public class GameScreenController implements Initializable{
             } catch (RemoteException e) {
                 LOGGER.log(Level.WARNING,e.toString(),e);
             }
-            guessInput.clear();
         }
     }
+
 
 
 }

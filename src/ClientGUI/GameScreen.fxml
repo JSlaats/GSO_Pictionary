@@ -16,17 +16,17 @@
    <children>
        <AnchorPane fx:id="menuPane" layoutX="4.0" prefHeight="31.0" prefWidth="631.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="clearBtn" layoutX="65.0" layoutY="4.0" mnemonicParsing="false" onAction="#clearScreen" prefHeight="25.0" prefWidth="50.0" text="Clear" />
-            <Label layoutX="122.0" layoutY="5.0" text="Size:" />
-            <Slider fx:id="sizeSlider" layoutX="156.0" layoutY="6.0" majorTickUnit="3.0" max="25.0" min="2.0" minorTickCount="1" prefHeight="14.0" prefWidth="81.0" snapToTicks="true" value="7.0" />
-            <ComboBox fx:id="colorInput" layoutX="282.0" layoutY="2.0" onAction="#setColor" prefHeight="25.0" prefWidth="102.0" />
-            <Label layoutX="241.0" layoutY="5.0" text="Color:" />
-            <Label fx:id="wordLabel" layoutX="451.0" layoutY="-2.0" text="Banaan">
+            <Button fx:id="clearBtn" layoutX="3.0" layoutY="4.0" mnemonicParsing="false" onAction="#clearScreen" prefHeight="25.0" prefWidth="50.0" text="Clear" />
+            <Label fx:id="sizeLbl" layoutX="73.0" layoutY="5.0" text="Size:" />
+            <Slider fx:id="sizeSlider" layoutX="100.0" layoutY="8.0" majorTickUnit="3.0" max="25.0" min="2.0" minorTickCount="1" prefHeight="14.0" prefWidth="81.0" snapToTicks="true" value="7.0" />
+            <ComboBox fx:id="colorInput" layoutX="229.0" layoutY="2.0" onAction="#setColor" prefHeight="25.0" prefWidth="102.0" />
+            <Label fx:id="colorLbl" layoutX="192.0" layoutY="5.0" text="Color:" />
+            <Label fx:id="wordLabel" layoutX="397.0" layoutY="-3.0" text="Banaan">
                <font>
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <Label layoutX="401.0" layoutY="5.0" text="Word:" />
+            <Label layoutX="354.0" layoutY="5.0" text="Word:" />
          </children></AnchorPane>
        <Pane fx:id="drawingPane" layoutX="4.0" layoutY="38.0" prefHeight="197.0" prefWidth="631.0" style="-fx-border-color: grey;" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="38.0">
          <children>

@@ -7,6 +7,7 @@ import fontyspublisher.RemotePublisher;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -83,25 +84,45 @@ public class Room extends UnicastRemoteObject implements IRoom, IRemotePublisher
 
     }
 
-    public void setActivePlayer(Player activePlayer) {
+    private void setActivePlayer(IPlayer activePlayer) {
         try {
             this.activePlayer = new ActivePlayer(activePlayer);
-        } catch (RemoteException e) {
-            LOGGER.log(Level.WARNING,e.toString(),e);
-        }
-        try {
             publisher.inform("player", null, getPlayers());
+
         } catch (RemoteException e) {
             LOGGER.log(Level.WARNING,e.toString(),e);
         }
     }
 
-    public boolean guessWord(String guess) throws RemoteException {
+    private IPlayer nextActivePlayer() throws RemoteException {
+        int index = players.indexOf(getActivePlayer().getPlayer());
+        int nextIndex;
+        if(index + 1 >= players.size()){
+            nextIndex = 0;
+        }else{
+            nextIndex = index + 1;
+        }
+        return players.get(nextIndex);
+    }
+
+    private void win(IPlayer player,int score) throws RemoteException {
+        //increase winning players score
+        player.increaseScore(score);
+        //set a new active player
+        setActivePlayer(nextActivePlayer());
+        getDrawing().clear();
+    }
+
+    public boolean guessWord(String guess, IPlayer player) throws RemoteException {
         guess = guess.toLowerCase();
         String guessWord = getActivePlayer().getWord().toLowerCase();
         if(Objects.equals(guess, guessWord)) {
+            this.getChat().setMessage("Guessed the word '"+guess+"', HE WAS RIGHT!!!!", LocalDateTime.now(),player.getName() );
+            IPlayer pl = players.get(players.indexOf(player));
+            win(pl,10);
             return true;
         }
+        this.getChat().setMessage("Guessed the word '"+guess+"', IT WAS WRONG!!!!", LocalDateTime.now(),player.getName() );
         return false;
     }
     @Override
