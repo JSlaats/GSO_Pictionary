@@ -7,7 +7,7 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Stroke implements Serializable, IStroke{
+public class Stroke implements Serializable, IStroke {
     private Point position;
     private BrushProperties brush;
 

@@ -1,8 +1,8 @@
 package ClientGUI;
 
+import Interfaces.ILogin;
 import Interfaces.IPlayer;
 import Interfaces.IRoomsList;
-import Interfaces.ILogin;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

@@ -18,6 +18,6 @@ public class ChatMessage {
     @Override
     public String toString() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-        return "["+time.format(dtf)+"] "+sender+": "+message;
+        return "[" + time.format(dtf) + "] " + sender + ": " + message;
     }
 }

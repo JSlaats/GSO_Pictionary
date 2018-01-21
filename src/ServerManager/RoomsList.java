@@ -29,31 +29,22 @@ public class RoomsList extends UnicastRemoteObject implements IRoomsList, IRemot
     }
 
     public ArrayList<IRooms> getRoomsList() {
-        try {
-            publisher.inform("list", null, roomsList);
-        } catch (RemoteException e) {
-            System.out.println("Failed to inform subscribers.O");
-            System.out.println("Remote exception: " + e.getMessage());
-        }
+        publisher.inform("list", null, roomsList);
         return roomsList;
     }
 
     public void add(String host, String name, String ipAdress, int port){
         roomsList.add(new Rooms(host,name,ipAdress,port));
-        try {
-            publisher.inform("list", null, roomsList);
-        } catch (RemoteException e) {
-            System.out.println("Remote Exception: " + e.getMessage());
-        }
+        publisher.inform("list", null, roomsList);
     }
 
     @Override
-    public void subscribeRemoteListener(IRemotePropertyListener listener, String property) throws RemoteException {
+    public void subscribeRemoteListener(IRemotePropertyListener listener, String property) {
         publisher.subscribeRemoteListener(listener, property);
     }
 
     @Override
-    public void unsubscribeRemoteListener(IRemotePropertyListener listener, String property) throws RemoteException {
+    public void unsubscribeRemoteListener(IRemotePropertyListener listener, String property) {
         publisher.unsubscribeRemoteListener(listener, property);
     }
 }

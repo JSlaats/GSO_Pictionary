@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class Room extends UnicastRemoteObject implements IRoom, IRemotePublisherForListener {
     private final static Logger LOGGER = Logger.getLogger(Room.class.getName());
-
+    private Timer timer;
     private Chat chat;
     private Player host;
     private ActivePlayer activePlayer;
@@ -25,7 +25,6 @@ public class Room extends UnicastRemoteObject implements IRoom, IRemotePublisher
     private RemotePublisher publisher;
     private ArrayList<String> wordList;
     private int time;
-    Timer timer;
 
     public Room(Player host) throws RemoteException {
         try {
@@ -50,43 +49,40 @@ public class Room extends UnicastRemoteObject implements IRoom, IRemotePublisher
         this.addPlayer(host);
     }
 
-    private void startTimer(){
+    private void startTimer() {
         //running timer task as daemon thread
         this.time = 60;
         timer = new Timer(true);
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if(time < 1){
+                if (time < 1) {
                     //end round
                     try {
                         endRound();
                     } catch (RemoteException e) {
-                        e.printStackTrace();
+                        LOGGER.log(Level.WARNING, e.toString(), e);
                     }
-                }else {
+                } else {
                     time--;
                 }
-                try {
-                    publisher.inform("timer", null, time);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
+                publisher.inform("timer", null, time);
+
             }
         }, 0, 1000);
 
     }
 
-    private String getRandomWord(){
+    private String getRandomWord() {
         Random rnd = new Random();
-        return wordList.get(rnd.nextInt(wordList.size()-1));
+        return wordList.get(rnd.nextInt(wordList.size() - 1));
     }
 
     public IChat getChat() {
         return chat;
     }
 
-    public Player getHost(){
+    public Player getHost() {
         return host;
     }
 
@@ -94,26 +90,18 @@ public class Room extends UnicastRemoteObject implements IRoom, IRemotePublisher
         return players;
     }
 
-    public void addPlayer(IPlayer player){
-        if(!players.contains(player)) {
+    public void addPlayer(IPlayer player) {
+        if (!players.contains(player)) {
             this.players.add(player);
         }
-        try {
-            publisher.inform("player", null, getPlayers());
-        } catch (RemoteException e) {
-            LOGGER.log(Level.WARNING,e.toString(),e);
-        }
-
+        publisher.inform("player", null, getPlayers());
     }
-    public void removePlayer(IPlayer player){
-        if(players.contains(player)) {
+
+    public void removePlayer(IPlayer player) {
+        if (players.contains(player)) {
             this.players.remove(player);
         }
-        try {
-            publisher.inform("player", null, getPlayers());
-        } catch (RemoteException e) {
-            LOGGER.log(Level.WARNING,e.toString(),e);
-        }
+        publisher.inform("player", null, getPlayers());
     }
 
     public IDrawing getDrawing() {
@@ -128,21 +116,21 @@ public class Room extends UnicastRemoteObject implements IRoom, IRemotePublisher
     private void setActivePlayer(Player activePlayer) {
         try {
             activePlayer.setIsActive(true);
-            this.activePlayer = new ActivePlayer(activePlayer,getRandomWord());
+            this.activePlayer = new ActivePlayer(activePlayer, getRandomWord());
             publisher.inform("newRound", null, getPlayers());
             startTimer();
         } catch (RemoteException e) {
-            LOGGER.log(Level.WARNING,e.toString(),e);
+            LOGGER.log(Level.WARNING, e.toString(), e);
         }
     }
 
     private IPlayer getNextActivePlayer() throws RemoteException {
-        ((Player)getActivePlayer().getPlayer()).setIsActive(false);
+        ((Player) getActivePlayer().getPlayer()).setIsActive(false);
         int index = players.indexOf(getActivePlayer().getPlayer());
         int nextIndex;
-        if(index + 1 >= players.size()){
+        if (index + 1 >= players.size()) {
             nextIndex = 0;
-        }else{
+        } else {
             nextIndex = index + 1;
         }
         return players.get(nextIndex);
@@ -153,29 +141,31 @@ public class Room extends UnicastRemoteObject implements IRoom, IRemotePublisher
         player.increaseScore(time);
         endRound();
     }
+
     private void endRound() throws RemoteException {
         //set a new active player
         timer.cancel();
-        setActivePlayer((Player)getNextActivePlayer());
+        setActivePlayer((Player) getNextActivePlayer());
         getDrawing().clear();
     }
+
     public boolean guessWord(String guess, IPlayer player) throws RemoteException {
         guess = guess.toLowerCase();
         String guessWord = getActivePlayer().getWord().toLowerCase();
-        if(Objects.equals(guess, guessWord)) {
-            this.getChat().setMessage("Guessed the word '"+guess+"', HE WAS RIGHT!!!!", LocalDateTime.now(),player.getName() );
+        if (Objects.equals(guess, guessWord)) {
+            this.getChat().setMessage("Guessed the word '" + guess + "', HE WAS RIGHT!!!!", LocalDateTime.now(), player.getName());
             IPlayer pl = players.get(players.indexOf(player));
             win(pl);
             return true;
         }
-        this.getChat().setMessage("Guessed the word '"+guess+"', IT WAS WRONG!!!!", LocalDateTime.now(),player.getName() );
+        this.getChat().setMessage("Guessed the word '" + guess + "', IT WAS WRONG!!!!", LocalDateTime.now(), player.getName());
         return false;
     }
 
     private void loadWordList() {
-        ArrayList<String> words = new ArrayList<String>();
+        ArrayList<String> words = new ArrayList<>();
         System.out.println("Trying to read words from the file");
-        File wordFile = new File(System.getProperty("user.dir")+"\\src\\wordList.txt");
+        File wordFile = new File(System.getProperty("user.dir") + "\\src\\wordList.txt");
         try (Scanner scanner = new Scanner(new FileReader(wordFile))) {
             while (scanner.hasNextLine()) {
                 words.add(scanner.nextLine());
@@ -188,12 +178,12 @@ public class Room extends UnicastRemoteObject implements IRoom, IRemotePublisher
     }
 
     @Override
-    public void subscribeRemoteListener(IRemotePropertyListener listener, String property) throws RemoteException {
+    public void subscribeRemoteListener(IRemotePropertyListener listener, String property) {
         publisher.subscribeRemoteListener(listener, property);
     }
 
     @Override
-    public void unsubscribeRemoteListener(IRemotePropertyListener listener, String property) throws RemoteException {
+    public void unsubscribeRemoteListener(IRemotePropertyListener listener, String property) {
         publisher.unsubscribeRemoteListener(listener, property);
     }
 }

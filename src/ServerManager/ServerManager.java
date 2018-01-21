@@ -1,17 +1,16 @@
 package ServerManager;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-public class ServerManager{
+public class ServerManager {
     private static final int portNumber = 1098;
 
     private Login login;
 
     private ServerManager() {
-        System.out.println("Server: Port number "+portNumber);
+        System.out.println("Server: Port number " + portNumber);
 
         RoomsList roomsList;
         try {
@@ -30,7 +29,7 @@ public class ServerManager{
         Registry registry;
         try {
             registry = LocateRegistry.createRegistry(portNumber);
-            System.out.println("Server: Registry created on port number "+portNumber);
+            System.out.println("Server: Registry created on port number " + portNumber);
         } catch (RemoteException var3) {
             System.out.println("Server: Cannot create registry");
             System.out.println("Server: RemoteException: " + var3.getMessage());
@@ -39,13 +38,13 @@ public class ServerManager{
 
         try {
             assert registry != null;
-            registry.rebind("roomslist", (Remote) roomsList);
+            registry.rebind("roomslist", roomsList);
         } catch (RemoteException var2) {
             System.out.println("Server: Cannot bind 'roomslist'");
             System.out.println("Server: RemoteException: " + var2.getMessage());
         }
         try {
-            registry.rebind("login",(Remote)login);
+            registry.rebind("login", login);
         } catch (RemoteException var2) {
             System.out.println("Server: Cannot bind 'login'");
             System.out.println("Server: RemoteException: " + var2.getMessage());

@@ -10,14 +10,13 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Chat extends UnicastRemoteObject implements IChat, IRemotePublisherForListener {
+    private final static Logger LOGGER = Logger.getLogger(Chat.class.getName());
     private ArrayList<ChatMessage> messages;
     private RemotePublisher publisher;
-    private final static Logger LOGGER = Logger.getLogger(Chat.class.getName());
 
     public Chat() throws RemoteException {
         super();
@@ -32,23 +31,13 @@ public class Chat extends UnicastRemoteObject implements IChat, IRemotePublisher
         publisher.registerProperty("chat");
     }
 
-/*    public ArrayList<String> getMessages() {
-        ArrayList<String> msgList = new ArrayList<>();
-        messages.forEach(msg -> msgList.add(msg.toString()));
-        return msgList;
-    }*/
-
-    public void setMessage(String message, LocalDateTime time, String sender){
+    public void setMessage(String message, LocalDateTime time, String sender) {
         this.messages.add(new ChatMessage(message, time, sender));
-        try {
-            publisher.inform("chat", null, getLastMessage());
-        } catch (RemoteException e) {
-            LOGGER.log(Level.WARNING,e.toString(),e);
-        }
+        publisher.inform("chat", null, getLastMessage());
     }
 
-    public String getLastMessage(){
-        if(this.messages.size()>0) {
+    public String getLastMessage() {
+        if (this.messages.size() > 0) {
             return this.messages.get(this.messages.size() - 1).toString();
         }
         return null;

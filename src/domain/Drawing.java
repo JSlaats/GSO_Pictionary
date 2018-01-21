@@ -12,13 +12,12 @@ import java.awt.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Drawing extends UnicastRemoteObject implements IDrawing, IRemotePublisherForListener{
-    private ArrayList<IStroke> strokes;
+public class Drawing extends UnicastRemoteObject implements IDrawing, IRemotePublisherForListener {
     private final static Logger LOGGER = Logger.getLogger(Drawing.class.getName());
+    private ArrayList<IStroke> strokes;
     private RemotePublisher publisher;
 
     public Drawing() throws RemoteException {
@@ -41,10 +40,10 @@ public class Drawing extends UnicastRemoteObject implements IDrawing, IRemotePub
     }
 
 
-    public IStroke getLastStroke(){
-        if(this.strokes.size()>0) {
+    public IStroke getLastStroke() {
+        if (this.strokes.size() > 0) {
             return this.strokes.get(this.strokes.size() - 1);
-        }else{
+        } else {
             return null;
         }
     }
@@ -52,32 +51,28 @@ public class Drawing extends UnicastRemoteObject implements IDrawing, IRemotePub
     public void setStroke(Point position) {
         try {
             IBrushProperties b = GameServer.getInstance().getRoom().getActivePlayer().getBrush();
-            BrushProperties brush = new BrushProperties(b.getWidth(),b.getR(),b.getG(),b.getB());
-            this.strokes.add(new Stroke(position,brush));
+            BrushProperties brush = new BrushProperties(b.getWidth(), b.getR(), b.getG(), b.getB());
+            this.strokes.add(new Stroke(position, brush));
 
             publisher.inform("stroke", null, getLastStroke());
 
         } catch (RemoteException e) {
-            LOGGER.log(Level.WARNING,e.toString(),e);
+            LOGGER.log(Level.WARNING, e.toString(), e);
         }
     }
 
-    public void clear(){
+    public void clear() {
         this.strokes = new ArrayList<>();
-        try {
-            publisher.inform("clear", null,true);
-        } catch (RemoteException e) {
-            LOGGER.log(Level.WARNING,e.toString(),e);
-        }
+        publisher.inform("clear", null, true);
     }
 
     @Override
-    public void subscribeRemoteListener(IRemotePropertyListener listener, String property) throws RemoteException {
+    public void subscribeRemoteListener(IRemotePropertyListener listener, String property)  {
         publisher.subscribeRemoteListener(listener, property);
     }
 
     @Override
-    public void unsubscribeRemoteListener(IRemotePropertyListener listener, String property) throws RemoteException {
+    public void unsubscribeRemoteListener(IRemotePropertyListener listener, String property) {
         publisher.unsubscribeRemoteListener(listener, property);
     }
 }

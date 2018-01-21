@@ -1,6 +1,7 @@
 package GameServer;
 
-import domain.*;
+import domain.Player;
+import domain.Room;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -40,7 +41,7 @@ public class GameServer {
             room = null;
         }
 
-        Registry registry = null;
+        Registry registry;
         try {
             registry = LocateRegistry.createRegistry(portNumber);
             System.out.println("Server: Registry created on port number "+portNumber);
@@ -52,7 +53,7 @@ public class GameServer {
 
         try {
             if (registry != null) {
-                registry.rebind(bindingName, (Remote) room);
+                registry.rebind(bindingName, room);
             }
         } catch (RemoteException var2) {
             System.out.println("Server: Cannot bind "+bindingName);

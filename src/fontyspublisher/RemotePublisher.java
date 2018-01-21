@@ -40,8 +40,7 @@ public class RemotePublisher extends UnicastRemoteObject
     }
 
     @Override
-    public void subscribeRemoteListener(IRemotePropertyListener listener, String property)
-            throws RemoteException {
+    public void subscribeRemoteListener(IRemotePropertyListener listener, String property) {
         publisher.subscribeRemoteListener(listener, property);
     }
     
@@ -60,8 +59,7 @@ public class RemotePublisher extends UnicastRemoteObject
     }
     
     @Override
-    public void unsubscribeRemoteListener(IRemotePropertyListener listener, String property)
-            throws RemoteException {
+    public void unsubscribeRemoteListener(IRemotePropertyListener listener, String property) {
         publisher.unsubscribeRemoteListener(listener, property);
     }
     
@@ -78,23 +76,22 @@ public class RemotePublisher extends UnicastRemoteObject
     }
 
     @Override
-    public void registerProperty(String property) throws RemoteException {
+    public void registerProperty(String property) {
         publisher.registerProperty(property);
     }
 
     @Override
-    public void unregisterProperty(String property) throws RemoteException {
+    public void unregisterProperty(String property) {
         publisher.unregisterProperty(property);
     }
 
     @Override
-    public void inform(String property, Object oldValue, Object newValue)
-            throws RemoteException {
+    public void inform(String property, Object oldValue, Object newValue) {
         publisher.inform(property, oldValue, newValue);
     }
 
     @Override
-    public List<String> getProperties() throws RemoteException {
+    public List<String> getProperties() {
         return publisher.getProperties();
     }
 }

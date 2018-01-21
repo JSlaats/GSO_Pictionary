@@ -1,10 +1,11 @@
 package domain;
 
 import Interfaces.IPlayer;
+
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Player implements IPlayer, Serializable{
+public class Player implements IPlayer, Serializable {
 
     private String name;
     private int score;
@@ -32,16 +33,16 @@ public class Player implements IPlayer, Serializable{
     }
 
     public void increaseScore(int score) {
-        if(score > 0)this.score += score;
+        if (score > 0) this.score += score;
     }
 
     @Override
     public String toString() {
-        String returnString =  " Name: "+this.name + "  Score: "+this.getScore();
-        if(isActive)
-            returnString = "[Active]"+returnString;
-        if(isHost){
-            returnString = "[Host]"+returnString;
+        String returnString = " Name: " + this.name + "  Score: " + this.getScore();
+        if (isActive)
+            returnString = "[Active]" + returnString;
+        if (isHost) {
+            returnString = "[Host]" + returnString;
         }
         return returnString;
     }

@@ -1,7 +1,5 @@
 package Interfaces;
 
-import ClientGUI.RemoteView;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;

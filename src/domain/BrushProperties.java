@@ -19,18 +19,19 @@ public class BrushProperties implements Serializable, IBrushProperties {
         this.blue = 0;
     }
 
-    public BrushProperties(int width,int red, int green, int blue){
+    public BrushProperties(int width, int red, int green, int blue) {
         this.width = width;
         this.red = red;
         this.green = green;
         this.blue = blue;
     }
+
     public int getWidth() {
         return width;
     }
 
     public void setWidth(int width) {
-        if(!(width <  1) && !(width > 25))this.width = width;
+        if (!(width < 1) && !(width > 25)) this.width = width;
     }
 
     public int getR() {
@@ -45,8 +46,8 @@ public class BrushProperties implements Serializable, IBrushProperties {
         return blue;
     }
 
-    public void setColor(int red, int green, int blue){
-        if(red >= 0 && red <= 255 && green >= 0 && green <= 255 && blue >= 0 && blue <= 255) {
+    public void setColor(int red, int green, int blue) {
+        if (red >= 0 && red <= 255 && green >= 0 && green <= 255 && blue >= 0 && blue <= 255) {
             this.red = red;
             this.green = green;
             this.blue = blue;

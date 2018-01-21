@@ -12,7 +12,7 @@ public class ActivePlayer extends UnicastRemoteObject implements IActivePlayer {
     private BrushProperties brush;
     private String word;
 
-    public ActivePlayer(IPlayer player,String word) throws RemoteException {
+    public ActivePlayer(IPlayer player, String word) throws RemoteException {
         super();
         this.player = player;
         this.brush = new BrushProperties();
@@ -31,11 +31,11 @@ public class ActivePlayer extends UnicastRemoteObject implements IActivePlayer {
         return brush;
     }
 
-    public void setBrushWidth(int width){
+    public void setBrushWidth(int width) {
         this.brush.setWidth(width);
     }
 
     public void setBrushColor(int red, int green, int blue) {
-        this.brush.setColor(red,green,blue);
+        this.brush.setColor(red, green, blue);
     }
 }

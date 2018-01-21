@@ -1,7 +1,5 @@
 package Interfaces;
 
-import Interfaces.IPlayer;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.SQLException;

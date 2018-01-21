@@ -15,7 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.URL;
@@ -50,7 +50,7 @@ public class RoomScreenController implements Initializable {
             properties.add("list");
              rv = new RemoteView(this, ManagerClient.getInstance().getRoomsList(),properties);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING,e.toString(),e);
         }
         try {
             data.addAll(ManagerClient.getInstance().getRoomsList().getRoomsList());
