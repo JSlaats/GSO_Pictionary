@@ -41,7 +41,7 @@ public class Room extends UnicastRemoteObject implements IRoom, IRemotePublisher
 
         this.loadWordList();
 
-        host.setHost(true);
+        host.setIsHost(true);
         this.host = host;
         this.chat = new Chat();
         this.drawing = new Drawing();
@@ -76,10 +76,8 @@ public class Room extends UnicastRemoteObject implements IRoom, IRemotePublisher
         }, 0, 1000);
 
     }
-    private void gameTimer(){
 
-    }
-    public String getRandomWord(){
+    private String getRandomWord(){
         Random rnd = new Random();
         return wordList.get(rnd.nextInt(wordList.size()-1));
     }
@@ -129,7 +127,7 @@ public class Room extends UnicastRemoteObject implements IRoom, IRemotePublisher
 
     private void setActivePlayer(Player activePlayer) {
         try {
-            activePlayer.setActive(true);
+            activePlayer.setIsActive(true);
             this.activePlayer = new ActivePlayer(activePlayer,getRandomWord());
             publisher.inform("newRound", null, getPlayers());
             startTimer();
@@ -139,7 +137,7 @@ public class Room extends UnicastRemoteObject implements IRoom, IRemotePublisher
     }
 
     private IPlayer getNextActivePlayer() throws RemoteException {
-        ((Player)getActivePlayer().getPlayer()).setActive(false);
+        ((Player)getActivePlayer().getPlayer()).setIsActive(false);
         int index = players.indexOf(getActivePlayer().getPlayer());
         int nextIndex;
         if(index + 1 >= players.size()){

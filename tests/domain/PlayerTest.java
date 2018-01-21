@@ -41,6 +41,7 @@ public class PlayerTest {
         player.increaseScore(10);
         int expResult = 10;
         int result = player.getScore();
+        assertEquals(expResult,result);
 
         //increase score by -1, should stay 10
         player.increaseScore(-1);

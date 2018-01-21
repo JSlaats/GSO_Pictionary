@@ -1,6 +1,5 @@
 package ClientGUI;
 
-import GameServer.GameServer;
 import Interfaces.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;

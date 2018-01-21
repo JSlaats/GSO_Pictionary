@@ -65,7 +65,7 @@ public class RoomTest {
     @Test
     public void getActivePlayer() throws RemoteException {
         //default active player
-        IActivePlayer expResult = new ActivePlayer(new Player("Jelle"));
+        IActivePlayer expResult = new ActivePlayer(new Player("Jelle"),"Gnome Child");
         IActivePlayer result = room.getActivePlayer();
         assertEquals(expResult.getPlayer(),result.getPlayer());
     }
@@ -73,10 +73,10 @@ public class RoomTest {
     @Test
     public void guessWord() throws RemoteException {
         //right word
-        boolean result = room.guessWord("Gnome Childd");
+        boolean result = room.guessWord("Gnome Child", new Player("Jelle"));
         assertTrue(result);
         //wrong word
-        result = room.guessWord("Not The word!");
+        result = room.guessWord("Not The word!", new Player("Jelle"));
         assertFalse(result);
     }
 }

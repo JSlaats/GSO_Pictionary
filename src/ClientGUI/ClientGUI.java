@@ -18,12 +18,4 @@ public class ClientGUI extends Application {
         primaryStage.setScene(new Scene(root, 640, 360));
         primaryStage.show();
     }
-
-/*    @Override
-    public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("GameScreen.fxml"));
-        primaryStage.setTitle("Pictionary");
-        primaryStage.setScene(new Scene(root, 1280, 720));
-        primaryStage.show();
-    }*/
 }

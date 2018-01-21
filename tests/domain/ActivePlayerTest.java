@@ -17,13 +17,13 @@ public class ActivePlayerTest {
     @Before
     public void setUp() throws RemoteException {
         IPlayer player = new Player("Jelle");
-        activePlayer = new ActivePlayer(player);
+        activePlayer = new ActivePlayer(player,"Gnome Child");
     }
 
     @Test
     public void getWord() throws RemoteException {
         //Correct word
-        String expectedResult = "Gnome Childd";
+        String expectedResult = "Gnome Child";
         String result = activePlayer.getWord();
         assertEquals(expectedResult,result);
         //Wrong word

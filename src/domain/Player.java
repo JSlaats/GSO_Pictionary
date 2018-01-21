@@ -8,19 +8,19 @@ public class Player implements IPlayer, Serializable{
 
     private String name;
     private int score;
-    private boolean host;
-    private boolean active;
+    private boolean isHost;
+    private boolean isActive;
 
     public Player(String name) {
         this.name = name;
     }
 
-    public void setHost(boolean host) {
-        this.host = host;
+    public void setIsHost(boolean host) {
+        this.isHost = host;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setIsActive(boolean active) {
+        this.isActive = active;
     }
 
     public String getName() {
@@ -38,9 +38,9 @@ public class Player implements IPlayer, Serializable{
     @Override
     public String toString() {
         String returnString =  " Name: "+this.name + "  Score: "+this.getScore();
-        if(host)
+        if(isActive)
             returnString = "[Active]"+returnString;
-        if(active){
+        if(isHost){
             returnString = "[Host]"+returnString;
         }
         return returnString;
